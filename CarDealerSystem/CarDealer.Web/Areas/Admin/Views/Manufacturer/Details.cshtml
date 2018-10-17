@@ -1,0 +1,55 @@
+﻿@model CarDealer.Services.Models.Manufacturer.ManufacturerDetailsServiceModel
+
+<h2 class=" text-center">Details for @Model.Name</h2>
+
+<div class="container">
+    <hr />
+    <div class="container" style="margin-bottom: 15px;">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 form-inline">
+            <form asp-controller="Vehicle" asp-action="Create" method="post">
+                <input type="text" hidden="hidden" name="manufacturerId" value="@Model.Id" />
+                <input class="form-control" name="name" type="text" placeholder="Add new model" />
+                <input type="submit" value="Create new" class="btn btn-primary" />
+            </form>
+        </div>
+    </div>
+    <div class="container">
+            <table class="table table-dark table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            Manufacturer
+                        </th>
+                        <th>
+                            Model
+                        </th>
+                        <th>
+                            Id
+                        </th>
+                        <th>
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var vehicleModel in Model.Models)
+                    {
+                        <tr>
+                            <td>@Model.Name</td>
+                            <td>@vehicleModel.Name</td>
+                            <td>@vehicleModel.Id</td>
+                            <td>
+                                <a asp-area="admin" asp-controller="Vehicle" asp-action="Edit" asp-route-id="@vehicleModel.Id" class="btn btn-warning">Edit</a>
+                                <a asp-area="admin" asp-controller="Vehicle" asp-action="Delete" asp-route-id="@vehicleModel.Id" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+<div class="text-md-center" style="margin-bottom: 15px">
+    <a asp-action="Index" class="btn btn-default">Back to List</a>
+</div>

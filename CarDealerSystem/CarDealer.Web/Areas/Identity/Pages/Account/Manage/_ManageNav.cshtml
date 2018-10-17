@@ -1,0 +1,15 @@
+﻿@using CarDealer.Models
+@inject SignInManager<User> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+<ul class="nav nav-pills flex-column">
+    <li class="@ManageNavPages.IndexNavClass(ViewContext) nav-link"><a style="color: white" asp-page="./Index">Profile</a></li>
+    <li class="@ManageNavPages.ChangePasswordNavClass(ViewContext) nav-link active" style="margin-top: 5px;"><a style="color: white;" id="change-password" asp-page="./ChangePassword">Password</a></li>
+    @if (hasExternalLogins)
+    {
+        <li class="@ManageNavPages.ExternalLoginsNavClass(ViewContext) nav-link active" style="margin-top: 5px;"><a style="color: white" id="external-login" asp-page="./ExternalLogins">External logins</a></li>
+    }
+    <li class="@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext) nav-link active" style="margin-top: 5px;"><a style="color: white" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
+    <li class="@ManageNavPages.PersonalDataNavClass(ViewContext)nav-link active" style="margin-top: 5px;"><a style="color: white" asp-page="./PersonalData">Personal data</a></li>
+</ul>

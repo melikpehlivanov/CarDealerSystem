@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CarDealer</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="~/css/style.css" />
+        <link rel="stylesheet" href="~/css/form.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+    <header id="tt-header" class="tt-on-top tt-header-01">
+        <!-- quickLinks -->
+        <div class="tt-quickLinks-popup">
+        </div>
+        <div class="tt-mobile-quickLinks">
+            <div class="container-fluid">
+                <div class="row no-gutters">
+                    <div class="col">
+                        <a class="btn-toggle" href="#"><i class="icon-149984"></i></a>
+                        <div class="quickLinks-layout">
+                            <div class="quickLinks-map">
+                                <address>
+                                    <i class="icon-149984"></i>3261 Anmoore Road, Brooklyn, NY 11230
+                                </address>
+                                <div id="googleMapHeader" class="google-map"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <a class="btn-toggle" href="#"><i class="icon-15874"></i></a>
+                        <div class="quickLinks-layout">
+                            <div class="quickLinks-address">
+                                <h6 class="tt-title">Call Us:</h6>
+                                <ul>
+                                    <li>
+                                        <a href="#"><i class="icon-15874"></i> +01 123 456 78</a>
+                                    </li>
+                                    <li>
+                                        <i class="icon-icon"></i> 9:00 AM – 8:00 PM
+                                    </li>
+                                    <li>
+                                        <a href="mailto:info@youremal.com"><i class="icon-mail"></i> info@youremal.com</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col tt-account">
+                        <a class="btn-toggle is-popup tt-account" href="#">
+                            <i class="icon-user"></i>
+                        </a>
+                        <div class="tt-dropdown-menu">
+                            <div class="tt-row-close">
+                                <a href="#" class="tt-btn-close icon-close"></a>
+                            </div>
+                            <ul>
+                                <li><a href="#">Account</a></li>
+                                <li><a href="#">Check Out</a></li>
+                                <li><a href="#">Sign In</a></li>
+                                <li><a href="#">Sign Out</a></li>
+                                <li><a href="#">Register</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- header-holder -->
+        <div class="header-holder">
+            <div class="container">
+                <div class="row">
+                    <!--logo-->
+                    <div class="col-logo">
+                    </div>
+                    <!--desctope-menu-->
+                    <div class="col-menu col-auto mr-auto ">
+                        <div class="tt-desctop-menu" id="tt-desctop-menu">
+                            <nav>
+                                <ul>
+                                    <li>
+                                        <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <!--btn toggle mobile menu-->
+                    <div class="col-menu-toggle col-auto">
+                        <a href="#" class="tt-menu-toggle icon-menu"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- stuck nav -->
+        <div id="tt-stuck">
+            <div class="container">
+                <div class="tt-stuck-row">
+
+                </div>
+            </div>
+        </div>
+    </header>
+    <partial name="_CookieConsentPartial" />
+
+    @RenderBody()
+
+    <environment include="Development">
+        @*<script src="external/jquery/jquery.min.js"></script>*@
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://use.fontawesome.com/releases/v5.0.13/css/all.css"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

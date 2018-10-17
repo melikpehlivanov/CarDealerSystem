@@ -1,0 +1,247 @@
+﻿@model AdEditViewModel
+
+<div class=" text-justify text-md-center">
+    <div class="modal-body modal-layout-dafault">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h1 class="modal-title">Edit your item</h1>
+        <form class="tt-form-default02" asp-controller="Ad" asp-action="Edit" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="Vehicle.Id" hidden="hidden" value="@Model.Vehicle.Id" />
+            <input asp-for="UserId" hidden="hidden" value="@Model.UserId" />
+            <h3 class="tt-title">Vehicle Info</h3>
+            <div class="col-12">
+                <div class="tt-mobile-product-layout visible-xs">
+                    <div class="tt-mobile-product-slider arrow-location-center slick-animated-show-js">
+                        @foreach (var picture in Model.Vehicle.Pictures)
+                        {
+                            <div><img src="@picture.Path" alt=""></div>
+                        }
+                    </div>
+                    <div class="tt-label-location">
+                        <span class="tt-label-promo">Great Deal!</span>
+                    </div>
+                </div>
+                <div>
+                    <ul id="gallery">
+                        @for (int i = 0; i < Model.Vehicle.Pictures.Count; i++)
+                        {
+                            var picture = Model.Vehicle.Pictures[i];
+                            <li>
+                                <a class="zoomGalleryActive" href="#" data-image="@picture.Path" data-zoom-image="@picture.Path"><img src="@picture.Path" alt="" /></a>
+                                <input id="urls[@i]" name="urls[@i]" value="@picture.Path" hidden="hidden" class="vehicle-picture" />
+                                <a class="close-btn">x</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <h6 class="tt-title text-left">Upload your car Photos</h6>
+                <div class="input-group tt-input-file">
+                    <label class="input-group-btn">
+                        <span class="tt-btn-icon">
+                            choose file... <input type="file" id="file-input" name="pictures" style="display: none;" multiple>
+                        </span>
+                    </label>
+                    <input type="text" readonly>
+                </div>
+            </div>
+
+            <div class="form-group tt-row-select tt-form-default tt-filters-aside" id="tt-filters-aside" style="padding-top: 25px">
+                <select asp-for="Vehicle.YearOfProduction" required asp-items="@Model.Vehicle.AvailableYears" class="tt-row-select tt-form-default tt-skin-01">
+                    <option disabled selected>Select a year</option>
+                </select>
+                <select asp-for="Vehicle.ManufacturerId" required asp-items="@Model.Vehicle.AllManufacturers" class="tt-row-select tt-form-default">
+                    <option disabled selected>Select a Make</option>
+                </select>
+                <select asp-for="Vehicle.ModelName" asp-items="@(new SelectList(string.Empty))" class="tt-row-select tt-form-default tt-skin-01">
+                    <option disabled selected>Select a Model</option>
+                </select>
+                <select asp-for="Vehicle.FuelTypeId" reqired asp-items="@Model.Vehicle.AllFuelTypes" class="tt-select tt-skin-01">
+                    <option disabled selected>Select Fuel Type</option>
+                </select>
+                <select asp-for="Vehicle.TransmissionTypeId" required asp-items="@Model.Vehicle.AllTransmissionTypes" class="tt-select tt-skin-01">
+                    <option disabled selected>Select Transmission</option>
+                </select>
+                <div class="form-group">
+                    <span asp-validation-for="Vehicle.TotalMileage" class="text-danger"></span>
+                    <input asp-for="Vehicle.TotalMileage" required class="form-control" placeholder="Mileage">
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="Vehicle.Engine" class="text-danger"></span>
+                    <input placeholder="Engine model etc." required asp-for="Vehicle.Engine" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="Vehicle.EngineHorsePower" class="text-danger"></span>
+                    <input placeholder="Engine HorsePower" required asp-for="Vehicle.EngineHorsePower" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="Vehicle.FuelConsumption" class="text-danger"></span>
+                    <input asp-for="Vehicle.FuelConsumption" required placeholder="Fuel Consumption" class="form-control">
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="Vehicle.Price" class="text-danger"></span>
+                    <input asp-for="Vehicle.Price" required class="form-control" placeholder="Price" />
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    <input type="text" asp-for="PhoneNumber" required class="form-control" placeholder="Phone">
+                </div>
+            </div>
+            <div class="form-group">
+                <textarea asp-for="Vehicle.Description" required class="form-control" placeholder="Description"></textarea>
+            </div>
+            <div>
+                @for (int i = 0; i < @Model.Vehicle.AllFeatures.Count; i++)
+                {
+                    @Html.CheckBoxFor(m => m.Vehicle.AllFeatures[i].IsChecked)
+                    <label>@Model.Vehicle.AllFeatures[i].Name</label>
+                    @Html.HiddenFor(m => m.Vehicle.AllFeatures[i].Id);
+                    @Html.HiddenFor(m => m.Vehicle.AllFeatures[i].Name);
+                }
+
+            </div>
+            @*<ul class="list-form-column">
+                    <li>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="checkBox11" name="checkbox" required checked>
+                            <label for="checkBox11">
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                I AGREE TO RECEIVE EMAILS FROM CAR LEADER
+                            </label>
+                        </div>
+                    </li>
+                </ul>*@
+            <button type="submit" class="btn btn-warning">Edit your vehicle</button>
+            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-default">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            GetModels();
+
+            $('#Vehicle_ManufacturerId').on('change', GetModels);
+
+            function GetModels() {
+                var url = '/Vehicle/Vehicle/GetModelsByManufacturerId';
+                $.getJSON(url,
+                    {
+                        manufacturerId: $('#Vehicle_ManufacturerId').val()
+                    },
+                    function(data) {
+                        var items = "<option>--- All ---</option>";
+
+                        for (var i = 0; i < data.length; i++) {
+                            var vehicleCurrentModel = '@Model.Vehicle.ModelName';
+                            var selected = vehicleCurrentModel === data[i].text ? " selected" : "";
+                            items += "<option" + selected + ">" + data[i].text + "</option>";
+                        }
+
+                        $('#Vehicle_ModelName').html(items);
+                    }
+                );
+            }
+        });
+    </script>
+
+    <script type="text/javascript">
+        $('.close-btn').on("click", removePicture);
+
+        $('#file-input').on('change',
+            function (e) {
+                var files = e.target.files;
+                var myId = $('#Vehicle_Id').val();
+                if (files.length > 0) {
+                    if (window.FormData !== undefined) {
+                        var data = new FormData();
+                        for (var x = 0; x < files.length; x++) {
+                            data.append("file" + x, files[x]);
+                        }
+
+                        $.ajax({
+                            type: "POST",
+                            url: '/Ad/UploadFile?id=' + myId,
+                            contentType: false,
+                            processData: false,
+                            data: data,
+                            success: function (result) {
+                                preview(result);
+                            },
+                            error: function (xhr, status, p3, p4) {
+                                var err = "Error " + " " + status + " " + p3 + " " + p4;
+                                if (xhr.responseText && xhr.responseText[0] == "{")
+                                    err = JSON.parse(xhr.responseText).Message;
+                            }
+                        });
+                    } else {
+                        alert("This browser doesn't support HTML5 file uploads!");
+                    }
+                }
+            });
+
+        function preview(data) {
+            $('[value="/images/vehicles/default.jpg"]').closest('li').remove();
+
+            var gallery = $('#gallery');
+            var count = gallery.children().length;
+
+            for (var i = 0; i < data.urls.length; i++) {
+                var url = data.urls[i];
+
+                var li = $('<li>')
+                    .append($('<a>')
+                        .append($('<img>')
+                            .attr("src", url)))
+                    .append($('<input>')
+                        .addClass('vehicle-picture')
+                        .attr("value", url)
+                        .attr("hidden", "hidden")
+                        .attr("id", `urls[${i + count}]`)
+                        .attr("name", `urls[${i + count}]`))
+                    .append($('<a>')
+                        .addClass("close-btn")
+                        .text('x')
+                        .on("click", removePicture));
+
+                gallery.append(li);
+            }
+        }
+
+        function removePicture() {
+            $(this).closest('li').remove();
+
+            var $inputs = $(".vehicle-picture");
+
+            $inputs.each(function (index, element) {
+                $(this)
+                    .attr("id", `urls[${index}]`)
+                    .attr("name", `urls[${index}]`);
+            });
+
+            if ($inputs.length === 0) {
+                var li = $('<li>')
+                    .append($('<a>')
+                        .append($('<img>')
+                            .attr("src", "/images/vehicles/default.jpg")))
+                    .append($('<input>')
+                        .addClass('vehicle-picture')
+                        .attr("value", '/images/vehicles/default.jpg')
+                        .attr("hidden", "hidden")
+                        .attr("id", 'urls[0]')
+                        .attr("name", 'urls[0]'))
+                    .append($('<a>')
+                        .addClass("close-btn")
+                        .text('x')
+                        .on("click", removePicture));
+
+                $('#gallery').append(li);
+            }
+        }
+
+    </script>
+}

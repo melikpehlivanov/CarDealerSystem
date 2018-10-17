@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Implementations\Picture\PictureService.cs~RF1a6aade9.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CarDealer.Common\CarDealer.Common.csproj" />
+    <ProjectReference Include="..\CarDealer.Data\CarDealer.Data.csproj" />
+    <ProjectReference Include="..\CarDealer.Models\CarDealer.Models.csproj" />
+  </ItemGroup>
+
+</Project>

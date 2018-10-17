@@ -1,0 +1,124 @@
+﻿@model AdDetailsViewModel
+
+@{
+    var firstHalfFeaturesCount = Model.Vehicle.Features.Count / 2;
+    var firstHalfOfFeatures = Model.Vehicle.Features.Take(firstHalfFeaturesCount);
+    var secondHalfOfFeatures = Model.Vehicle.Features.Skip(firstHalfFeaturesCount);
+}
+
+<h1 class="text-md-center">Are you sure you want to delete this vehicle?</h1>
+
+<form method="post" asp-action="Delete">
+    <button style="margin: auto; display: block;" asp-controller="Ad" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-xl">Delete</button>
+    <button style="margin: auto; display: block; margin-top: 10px;" asp-action="details" asp-route-id="@Model.Id" class="btn btn-default">Cancel</button>
+</form>
+
+<div class="container-indent-05" disabled>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <div class="tt-title-single">
+                    <h1 class="tt-title">@Model.Vehicle.FullModelName</h1>
+                    <div class="tt-description">@Model.Vehicle.Engine</div>
+                </div>
+                <!-- mobile product slider  -->
+                <div class="tt-mobile-product-layout visible-xs">
+                    <div class="tt-mobile-product-slider arrow-location-center slick-animated-show-js">
+                        @foreach (var picture in Model.Vehicle.Pictures)
+                        {
+                            <div><img src="@picture.Path" alt=""></div>
+                        }
+                    </div>
+                    <div class="tt-label-location">
+                        <span class="tt-label-promo">Great Deal!</span>
+                    </div>
+                </div>
+                <div class="tt-layout-preview hidden-xs">
+                    <div class="tt-product-single-img">
+                        <div class="tt-label-location">
+                            <span class="tt-label-promo">Great Deal!</span>
+                        </div>
+                        <div>
+                            <img class="zoom-product" src="@Model.Vehicle.PrimaryPicturePath" data-zoom-image="@Model.Vehicle.PrimaryPicturePath" alt="">
+                        </div>
+                    </div>
+                    <div class="product-images-carousel">
+                        <ul id="smallGallery" class="tt-arrow-center-small slick-animated-show-js">
+                            @foreach (var picture in Model.Vehicle.Pictures)
+                            {
+                                <li><a class="zoomGalleryActive" href="#" data-image="@picture.Path" data-zoom-image="@picture.Path"><img src="@picture.Path" alt="" /></a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="tt-box-indent">
+                    <h6 class="tt-title-single-sub">Features</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="tt-list03">
+                                @foreach (var feature in firstHalfOfFeatures)
+                                {
+                                    <li><a href="#">@feature</a></li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="tt-list03">
+                                @foreach (var feature in secondHalfOfFeatures)
+                                {
+                                    <li><a href="#">@feature</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tt-box-indent">
+                    <h6 class="tt-title-single-sub">Vehicle Overview</h6>
+                    @Model.Vehicle.Description
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="tt-aside03-layout">
+                    <div class="tt-aside-promo">
+                        <div class="tt-wrapper">
+                            <div class="tt-value">$@Model.Vehicle.Price</div>
+                        </div>
+                    </div>
+                    <div class="tt-aside03-box">
+                        <h6 class="tt-aside03-title">Options</h6>
+                        <div class="tt-aside03-content">
+                            <table class="tt-table-options">
+                                <tbody>
+                                    <tr>
+                                        <td>MILEAGE:</td>
+                                        <td>@Model.Vehicle.TotalMileage miles </td>
+                                    </tr>
+                                    <tr>
+                                        <td>FUEL TYPE:</td>
+                                        <td>@Model.Vehicle.FuelTypeName</td>
+                                    </tr>
+                                    <tr>
+                                        <td>FUEL CONSUMPTION PER 100KM:</td>
+                                        <td>@Model.Vehicle.FuelConsumption litres</td>
+                                    </tr>
+                                    <tr>
+                                        <td>YEAR:</td>
+                                        <td>@Model.Vehicle.YearOfProduction</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TRANSMission:</td>
+                                        <td>@Model.Vehicle.TransmissionTypeName</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Engine:</td>
+                                        <td>@Model.Vehicle.Engine</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

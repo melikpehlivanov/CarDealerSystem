@@ -1,0 +1,126 @@
+﻿@model AdCreateViewModel
+
+<div class=" text-justify text-md-center">
+    <div class="modal-body modal-layout-dafault">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h1 class="modal-title">Add your Item</h1>
+        <p class="tt-default-color02">
+            Trading in your current car can help serve as a springboard into your new one. One of our team members will be in touch with a quote for your trade in right away.
+        </p>
+        <form class="tt-form-default02" method="post" asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h6 class="tt-title">Vehicle Info</h6>
+            <div class="form-group tt-row-select tt-form-default tt-filters-aside" id="tt-filters-aside">
+                <select asp-for="YearOfProduction" asp-items="@Model.AvailableYears" class="tt-row-select tt-form-default tt-skin-01">
+                    <option disabled selected>Select a year</option>
+                </select>
+                <select asp-for="ManufacturerId" asp-items="@Model.AllManufacturers" class="tt-row-select tt-form-default">
+                    <option disabled selected>Select a Make</option>
+                </select>
+                <select asp-for="ModelName" asp-items="@(new SelectList(string.Empty))" class="tt-row-select tt-skin-01">
+                    <option disabled selected>Select a Model</option>
+                </select>
+                <select asp-for="FuelTypeId" asp-items="@Model.AllFuelTypes" class="tt-select tt-skin-01">
+                    <option disabled selected>Select Fuel Type</option>
+                </select>
+                <select asp-for="TransmissionTypeId" asp-items="@Model.AllTransmissionTypes" class="tt-select tt-skin-01">
+                    <option disabled selected>Select Transmission</option>
+                </select>
+                <div class="form-group">
+                    <span asp-validation-for="TotalMileage" class="text-danger"></span>
+                    <input value="" asp-for="TotalMileage" class="form-control" placeholder="Mileage">
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="Engine" class="text-danger"></span>
+                    <input placeholder="Engine model etc." asp-for="Engine" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="EngineHorsePower" class="text-danger"></span>
+                    <input placeholder="Engine HorsePower" value="" asp-for="EngineHorsePower" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="FuelConsumption" class="text-danger"></span>
+                    <input asp-for="FuelConsumption" value="" placeholder="Fuel Consumption" class="form-control">
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                    <input asp-for="Price" value="" class="form-control" placeholder="Price" />
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    <input type="text" asp-for="PhoneNumber" class="form-control" placeholder="Phone">
+                </div>
+            </div>
+            <div class="form-group">
+                <textarea asp-for="Description" class="form-control" placeholder="Description"></textarea>
+            </div>
+            <div>
+                <h5>Features</h5>
+                <div class="row">
+                    <div>
+                        @for (int i = 0; i < Model.AllFeatures.Count; i++)
+                        {
+                            <label>@Html.CheckBoxFor(m => m.AllFeatures[i].IsChecked) @Model.AllFeatures[i].Name</label>
+                            @Html.HiddenFor(m => m.AllFeatures[i].Id)
+                            @Html.HiddenFor(m => m.AllFeatures[i].Name)
+                        }
+                    </div>
+                </div>
+            </div>
+            <h6 class="tt-title text-left">Upload your car Photos</h6>
+            <div class="input-group tt-input-file">
+                <label class="input-group-btn">
+                    <span class="tt-btn-icon">
+                        choose file... <input type="file" name="pictures" style="display: none;" multiple>
+                    </span>
+                </label>
+                <input type="text" readonly>
+            </div>
+            <button type="submit" class="btn">Add your vehicle</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var url = '/Vehicle/Vehicle/GetModelsByManufacturerId';
+            var ddlSourse = "#ManufacturerId";
+            $.getJSON(url, { manufacturerId: $(ddlSourse).val() }, function (data) {
+                var items = '';
+                $('#ModelName').empty();
+                $.each(data, function (i, vehModel) {
+                    var vehicleCurrentModel = '@Model.ModelName';
+                    var selected = vehicleCurrentModel === vehModel.text ? " selected" : "";
+                    items += "<option" + selected + ">" + vehModel.text + "</option>";
+                });
+                $('#ModelName').html(items);
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#ManufacturerId').on('change', function () {
+                var url = '/Vehicle/Vehicle/GetModelsByManufacturerId';
+                var ddlSourse = "#ManufacturerId";
+                $.getJSON(url, { manufacturerId: $(ddlSourse).val() }, function (data) {
+                    var items = '<li data-value="--- All ---" class="option disabled">--- All ---</li>';
+                    var items2 = "<option disabled>--- All ---</option>";
+                    $('#ModelName').next('div').find('ul').empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var item = `<li data-value="${data[i].text}" class="option focus">${data[i].text}</li\>`;
+                        items += item;
+                    }
+                    $.each(data, function (i, vehModel) {
+                        items2 += "<option>" + vehModel.text + "</option>";
+                    });
+                    $('#ModelName').next('div').find('ul').html(items);
+                    $('#ModelName').html(items2);
+                });
+            });
+        });
+    </script>
+}

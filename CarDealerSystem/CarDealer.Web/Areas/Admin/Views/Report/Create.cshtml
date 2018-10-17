@@ -1,0 +1,13 @@
+﻿@model ReportViewModel
+@{
+    ViewData["Title"] = "Report";
+}
+<h1 class="text-center">Report</h1>
+<form method="post" asp-action="Submit">
+    <div class="container text-center">
+        <div class="form-group" style="margin-top: 15px;">
+            <textarea asp-for="Description" class="form-control" placeholder="Description"></textarea>
+        </div>
+        <button type="submit" class="btn btn-warning" style="margin-bottom: 15px;">Report it</button>
+    </div>
+</form>

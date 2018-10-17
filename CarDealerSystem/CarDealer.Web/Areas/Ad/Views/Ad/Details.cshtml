@@ -1,0 +1,307 @@
+﻿@model AdDetailsViewModel
+
+@{
+    var firstHalfFeaturesCount = Model.Vehicle.Features.Count / 2;
+    var firstHalfOfFeatures = Model.Vehicle.Features.Take(firstHalfFeaturesCount);
+    var secondHalfOfFeatures = Model.Vehicle.Features.Skip(firstHalfFeaturesCount);
+}
+
+<div class="container-indent-05">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <div class="tt-visible text-md-center">
+                    @*<a asp-controller="Search" asp-action="Result" asp-route-return-url="@Model.ReturnUrl" class="tt-link-back">RETURN TO INVENTORY</a>*@
+                    @if (User.Identity.Name == Model.UserEmail && User.IsInRole(WebConstants.AdministratorRole))
+                    {
+                        <a class="btn" asp-controller="Ad" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                        <a class="btn" asp-controller="Ad" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                    }
+                    @if ((User.IsInRole(WebConstants.AdministratorRole) || User.IsInRole(WebConstants.SeniorAdministratorRole)) && User.Identity.Name != Model.UserEmail)
+                    {
+                        <a class="btn" asp-controller="Ad" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                        if (Model.IsReported)
+                        {
+                            <form method="post" asp-area="Admin" asp-controller="Report" asp-action="Update" style="margin-top: 5px; display: inline-block">
+                                <button type="submit" class="btn" asp-area="Admin" asp-controller="Report" asp-action="Update" asp-route-id="@Model.Id">Mark as false report</button>
+                            </form>
+                        }
+                    }
+
+                </div>
+                <div class="tt-title-single">
+                    <h1 class="tt-title">@Model.Vehicle.FullModelName</h1>
+                    <div class="tt-description">@Model.Vehicle.Engine</div>
+                </div>
+                @*<div class="tt-aside-btn visible-xs">
+                        <a href="#" class="btn btn-color02" data-toggle="modal" data-target="#modalAddTestDrive"><i class="icon-testdrive"></i>TEST DRIVE</a>
+                        <a href="#"  class="btn btn-color02">Report this ad</a>
+                    </div>*@
+                <!-- mobile product slider  -->
+                <div class="tt-mobile-product-layout visible-xs">
+                    <div class="tt-mobile-product-slider arrow-location-center slick-animated-show-js">
+                        @foreach (var picture in Model.Vehicle.Pictures)
+                        {
+                            <div><img src="@picture.Path" alt=""></div>
+                        }
+                    </div>
+                    <div class="tt-label-location">
+                        <span class="tt-label-promo">Great Deal!</span>
+                    </div>
+                </div>
+                <div class="tt-layout-preview hidden-xs">
+                    <div class="tt-product-single-img">
+                        <div class="tt-label-location">
+                            <span class="tt-label-promo">Great Deal!</span>
+                        </div>
+                        <div>
+                            <img class="zoom-product" src="@Model.Vehicle.PrimaryPicturePath" data-zoom-image="@Model.Vehicle.PrimaryPicturePath" alt="">
+                        </div>
+                    </div>
+                    <div class="product-images-carousel">
+                        <ul id="smallGallery" class="tt-arrow-center-small slick-animated-show-js">
+                            @foreach (var picture in Model.Vehicle.Pictures)
+                            {
+                                <li><a class="zoomGalleryActive" href="#" data-image="@picture.Path" data-zoom-image="@picture.Path"><img src="@picture.Path" alt="" /></a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="tt-box-indent">
+                    <h6 class="tt-title-single-sub">Features</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="tt-list03">
+                                @foreach (var feature in secondHalfOfFeatures)
+                                {
+                                    <li><a href="#">@feature</a></li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="tt-list03">
+                                @foreach (var feature in firstHalfOfFeatures)
+                                {
+                                    <li><a href="#">@feature</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tt-box-indent">
+                    <h6 class="tt-title-single-sub">Vehicle Overview</h6>
+                    @Model.Vehicle.Description
+                </div>
+                <div class="tt-box-indent">
+                    <h6 class="tt-title-single-sub">
+                        Contact Seller About this Car
+                    </h6>
+                    <form class="tt-form-default02 tt-form-review" method="post" asp-area="ContactUs" asp-controller="Contact" asp-action="OnPostAsync">
+                        <div class="tt-form-aside">
+                            <input type="number" name="ReceiverId" value="@Model.Id" hidden />
+                            <div class="form-group">
+                                <input type="text" name="Name" class="form-control" placeholder="Your name*">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="Subject" class="form-control" placeholder="Subject*">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="Email" class="form-control" placeholder="E-mail*">
+                            </div>
+                            <div class="form-group">
+                                <textarea name="Message" class="form-control" placeholder="Message" id="textareaMessage"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-default">ASK A QUESTION</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="tt-aside03-layout">
+                    <div class="tt-aside-btn hidden-xs">
+                        @*<a href="#" class="btn btn-color02" data-toggle="modal" data-target="#modalAddTestDrive"><i class="icon-testdrive"></i>TEST DRIVE</a>*@
+                        <a asp-area="Admin" asp-controller="Report" asp-action="Create" asp-route-id="@Model.Id" class="btn btn-color01">Report this ad</a>
+                    </div>
+                    <div class="tt-aside-promo">
+                        <div class="tt-wrapper">
+                            <div class="tt-value">$@Model.Vehicle.Price</div>
+                            <p>
+                                Taxes &amp; Licensing included
+                            </p>
+                            <a href="#" class="btn btn-xl">Phone number: @Model.PhoneNumber</a>
+                        </div>
+                        <div class="tt-info">
+                            Estimated Loan Payment: <a href="#calc"><span style="color: red"><b>Calculate</b></span></a>
+                        </div>
+                    </div>
+                    <div class="tt-aside03-box">
+                        <h6 class="tt-aside03-title">Options</h6>
+                        <div class="tt-aside03-content">
+                            <table class="tt-table-options">
+                                <tbody>
+                                    <tr>
+                                        <td>MILEAGE:</td>
+                                        <td>@Model.Vehicle.TotalMileage miles </td>
+                                    </tr>
+                                    <tr>
+                                        <td>FUEL TYPE:</td>
+                                        <td>@Model.Vehicle.FuelTypeName</td>
+                                    </tr>
+                                    <tr>
+                                        <td>FUEL CONSUMPTION PER 100KM:</td>
+                                        <td>@Model.Vehicle.FuelConsumption litres</td>
+                                    </tr>
+                                    <tr>
+                                        <td>YEAR:</td>
+                                        <td>@Model.Vehicle.YearOfProduction</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TRANSMission:</td>
+                                        <td>@Model.Vehicle.TransmissionTypeName</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Engine:</td>
+                                        <td>@Model.Vehicle.Engine</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Horsepower:</td>
+                                        <td>@Model.Vehicle.EngineHorsePower</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="calc" class="tt-aside-calculator">
+                        @*<form class="tt-form-default">*@
+                        <div class="tt-wrapper-top">
+                            <h6 class="tt-calculator-title">
+                                <span class="icon-calculator"></span>
+                                Financing<br>Calculator
+                            </h6>
+                            <div class="tt-calculator-content tt-form-default">
+                                <div class="tt-form-aside">
+                                    <div class="form-group">
+                                        <label>Vehicle price ($)</label>
+                                        <input type="number" onchange="calculate();" id="vehicle-price" class="form-control" placeholder="@Model.Vehicle.Price">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Interest rate (%)</label>
+                                                <input type="number" onchange="calculate();" id="interest-rate" class="form-control" placeholder="3">
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Period (month)</label>
+                                                <input type="number" onchange="calculate();" id="period" class="form-control" placeholder="24">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Dawn Payment ($)</label>
+                                        <input type="number" onchange="calculate();" id="dawn-payment" class="form-control" placeholder="2000">
+                                    </div>
+                                </div>
+                                <button class="btn btn-fullwidth" onclick="calculate();">Calculate</button>
+                            </div>
+                        </div>
+                        <div class="tt-wrapper-bottom">
+                            <ul class="tt-data-output">
+                                <li>Monthly Payment<span id="payment"></span></li>
+                                <li>Total Interest Payment <span id="total-interest"></span></li>
+                                <li>Total Amount to Pay <span id="total-payment"></span></li>
+                            </ul>
+                        </div>
+                        @*</form>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        function calculate() {
+            var amount = document.getElementById("vehicle-price");
+            var interestRate = document.getElementById("interest-rate");
+            var period = document.getElementById("period");
+            var payment = document.getElementById("payment");
+
+            var dawnPayment = document.getElementById("dawn-payment");
+
+            var total = document.getElementById("total-payment");
+            var totalinterest = document.getElementById("total-interest");
+
+            var parsedDawnPayment = parseFloat(dawnPayment.value);
+
+            var principal = parseFloat(amount.value) - parsedDawnPayment;
+            var interest = parseFloat(interestRate.value) / 100 / 12;
+            var payments = parseFloat(period.value); /**= 12*/
+            var x = Math.pow(1 + interest, payments);
+            var monthly = (principal * x * interest) / (x - 1);
+
+            if (isFinite(monthly)) {
+                payment.innerHTML = monthly.toFixed(2);
+                total.innerHTML = (monthly * payments).toFixed(2);
+                totalinterest.innerHTML = ((monthly * payments) - principal).toFixed(2);
+                save(amount.value, interestRate.value, period.value);
+                try {
+                    getLenders(amount.value, interestRate.value, period.value);
+                }
+                catch (e) { /* And ignore those errors */ }
+            }
+            else {
+                payment.innerHTML = "$";
+                total.innerHTML = "$";
+                totalinterest.innerHTML = "$";
+            }
+        }
+        function save(amount, apr, years, dawnPayment) {
+            if (window.localStorage) {
+                localStorage.loan_amount = amount;
+                localStorage.loan_apr = apr;
+                localStorage.loan = years;
+                localStorage.loan_dawn_payment = dawnPayment;
+            }
+        }
+        window.onload = function () {
+            if (window.localStorage && localStorage.loan_amount) {
+                document.getElementById("vehicle-price").value = localStorage.loan_amount;
+                document.getElementById("interest-rate").value = localStorage.loan.apr;
+                document.getElementById("period").value = localStorage.loan;
+                document.getElementById("dawn-payment").value = localStorage.loan_dawn_payment;
+            }
+        };
+
+        function getLenders(amount, apr, years) {
+            if (!window.XMLHttpRequest)
+                return;
+            var ad = document.getElementById("lenders");
+            if (!ad)
+                return;
+            var url = "getLenders.php" +
+                "?amt=" +
+                encodeURIComponent(amount) +
+                "&apr=" +
+                encodeURIComponent(apr) +
+                "&yrs=" +
+                encodeURIComponent(years);
+            var req = new XMLHttpRequest();
+            req.open("GET", url);
+            req.send(null);
+            req.onreadystatechange = function () {
+                if (req.readyState == 4 && req.status == 200) {
+                    var response = req.responseText;
+                    var lenders = JSON.parse(response);
+                    var list = "";
+                    for (var i = 0; i < lenders.length; i++) {
+                        list += "<li>< a href = '" + lenders[i].url + "' > " + lenders[i].name + "</a > ";
+                    }
+                    ad.innerHTML = "<ul>" + list + "</ul>";
+                }
+            };
+        }
+    </script>
+}

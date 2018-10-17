@@ -1,0 +1,88 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+    Layout = "_FormsLayout";
+}
+
+<div class="container">
+    <div class="row" style="margin-top: 90px">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Sign In</h5>
+                    <form class="form-signin" method="post">
+                        <div class="form-label-group">
+                            <input asp-for="Input.Email" style="font-size: 13px;" class="form-control" placeholder="Email address" required>
+                            <label asp-for="Input.Email">Email address</label>
+                        </div>
+
+                        <div class="form-label-group">
+                            <input asp-for="Input.Password" class="form-control" placeholder="Password" required>
+                            <label asp-for="Input.Password">Password</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox mb-3">
+                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                            <label class="custom-control-label" for="customCheck1">Remember me</label>
+                        </div>
+                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+
+                        <hr class="my-4">
+                    </form>
+                    <form class="form-signin" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                        <div>
+                            <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit" name="provider" value="Facebook" title="Log in using your Facebook account"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button>
+                            <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit" name="provider" value="Google" title="Log in using your Google account"><i class="fab fa-facebook-f mr-2"></i> Sign in with Google</button>
+                        </div>
+
+                        <p style="text-align: center; margin-top: 10px">Don't have account yet?</p>
+                        <a class="btn btn-lg btn-primary btn-block text-uppercase" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@Model.ReturnUrl">Register</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<form method="post">
+        <h1 id="litheader">Login</h1>
+        <div class="inset">
+            <div class="carousel-control"></div>
+            <div style="text-align: center">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div style="font-size: 18px">
+                    <div class="form-group">
+                        <label asp-for="Input.Email"></label>
+                        <input type="text" asp-for="Input.Email" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Password"></label>
+                        <input type="password" asp-for="Input.Password" class="form-control"/>
+                    </div>
+                    <div class="checkboxouter">
+                        <input type="checkbox" name="rememberme" id="remember" value="Remember">
+                        <label class="checkbox"></label>
+                    </div>
+                    <label for="remember">Remember me</label>
+                </div>
+            </div>
+            </div>
+        <p class="p-container">
+            <input type="submit" name="Login" id="go" value="Login">
+        </p>
+        <p class="p-container">
+            <button class="btn btn-lg btn-google btn-block text-uppercase" style="background-color: blue;" type="submit"><i class="fab fa-google mr-2"></i> Sign in with Facebook</button>
+            <button class="btn btn-lg btn-google btn-block text-uppercase" style="background-color: red;" type="submit"><i class="fab fa-google mr-2"></i> Sign in with Google</button>
+        </p>
+        <p class="container-fluid container text-md-center">
+            Don't have account yet?
+        </p>
+        <div class="text-md-center" style="padding-top: 15px">
+            <a class="btn tt-btn-toggle" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@Model.ReturnUrl">Register</a>
+        </div>
+    </form>*@
+
+@section Scripts{
+    <script src="~/js/form.js"></script>
+}

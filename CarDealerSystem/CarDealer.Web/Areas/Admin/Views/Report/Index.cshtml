@@ -1,0 +1,76 @@
+﻿@model AdReportListingViewModel
+
+<h1 style="text-align: center">Reported ads</h1>
+
+<div class="container">
+    <table class="table table-dark table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Picture</th>
+                <th>Ad</th>
+                <th>Report reason</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ad in Model.Results)
+            {
+                <tr>
+                    <td>@ad.CreationDate</td>
+                    <td>
+                        <a asp-area="Ad" asp-controller="Ad" asp-action="Details" asp-route-id="@ad.Id">
+                            <img src="@ad.PicturePath" style="width: fit-content; height: 100px;">
+                        </a>
+                    </td>
+                    <td>@ad.FullModelName</td>
+                    <td>@ad.Description</td>
+                    <td>
+                        <a class="btn" asp-area="Ad" asp-controller="Ad" asp-action="Details" asp-route-id="@ad.Id">Details</a>
+                        @if (User.Identity.Name == ad.UserEmail)
+                        {
+                            <a class="btn" asp-area="Ad" asp-controller="Ad" asp-action="Edit" asp-route-id="@ad.Id">Edit</a>
+                            <a class="btn" asp-area="Ad" asp-controller="Ad" asp-action="Delete" asp-route-id="@ad.Id">Delete</a>
+                        }
+                        @if ((User.IsInRole(WebConstants.AdministratorRole) || User.IsInRole(WebConstants.SeniorAdministratorRole)) && User.Identity.Name != ad.UserEmail)
+                        {
+                            <a class="btn" asp-area="Ad" asp-controller="Ad" asp-action="Delete" asp-route-id="@ad.Id">Delete</a>
+                            <form method="post" asp-action="Update" style="margin-top: 5px; display: inline-block">
+                                <button type="submit" class="btn" asp-area="Admin" asp-controller="Report" asp-action="Update" asp-route-id="@ad.Id">Mark as false report</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@{
+    var prevDisabled = !Model.Results.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Results.HasNextPage ? "disabled" : "";
+    var firstDisabled = Model.Results.PageIndex == 1 ? "disabled" : "";
+    var lastDisabled = Model.Results.TotalPages <= Model.Results.PageIndex ? "disabled" : "";
+}
+<div class="text-center" style="margin-bottom: 15px;">
+    <a asp-route-page="1"
+       class="btn btn-default @firstDisabled">
+        First page
+    </a>
+    <a asp-route-page="@(Model.Results.PageIndex - 1)"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <span class="btn btn-group">
+        @Model.Results.PageIndex
+    </span>
+    <a asp-route-page="@(Model.Results.PageIndex + 1)"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
+    <a asp-route-page="@(Model.Results.TotalPages)"
+       class="btn btn-default @lastDisabled">
+        Last page
+    </a>
+</div>
+

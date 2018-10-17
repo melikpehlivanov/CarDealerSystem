@@ -1,0 +1,280 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/style.css" />
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700" rel="stylesheet">
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+
+    <!-- tt-mobile menu -->
+    <nav class="panel-menu" id="mobile-menu">
+        <ul></ul>
+        <div class="mm-navbtn-names">
+            <div class="mm-closebtn">Close</div>
+            <div class="mm-backbtn">Back</div>
+        </div>
+    </nav>
+    <header id="tt-header" class="tt-header-01">
+        <!-- quickLinks -->
+        <div class="tt-quickLinks-popup">
+        </div>
+        <div class="tt-mobile-quickLinks">
+            <div class="container-fluid">
+                <div class="row no-gutters">
+                    <div class="col">
+                        <a class="btn-toggle" href="#"><i class="icon-149984"></i></a>
+                        <div class="quickLinks-layout">
+                            <div class="quickLinks-map">
+                                <address>
+                                    <i class="icon-149984"></i>3261 Anmoore Road, Brooklyn, NY 11230
+                                </address>
+                                <div id="googleMapHeader" class="google-map"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <a class="btn-toggle" href="#"><i class="icon-15874"></i></a>
+                        <div class="quickLinks-layout">
+                            <div class="quickLinks-address">
+                                <h6 class="tt-title">Call Us:</h6>
+                                <ul>
+                                    <li>
+                                        <a href="#"><i class="icon-15874"></i> +01 123 456 78</a>
+                                    </li>
+                                    <li>
+                                        <i class="icon-icon"></i> 9:00 AM – 8:00 PM
+                                    </li>
+                                    <li>
+                                        <a href="mailto:info@youremal.com"><i class="icon-mail"></i> info@youremal.com</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col tt-account">
+                        <a class="btn-toggle is-popup tt-account" href="#">
+                            <i class="icon-user"></i>
+                        </a>
+                        <div class="tt-dropdown-menu">
+                            <div class="tt-row-close">
+                                <a href="#" class="tt-btn-close icon-close"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- panel-info -->
+        <div class="tt-panel-info">
+            <div class="container">
+                <div class="row no-gutters align-items-center">
+                    <div class="col-auto mr-auto">
+                        <ul class="tt-box-info">
+                            <li><i class="icon-149984"></i>3261 Anmoore Road, Brooklyn, NY 11230</li>
+                            <li><a href="#"><i class="icon-15874"></i><strong>Call Us:</strong> +01 123 456 78</a></li>
+                            <li><i class="icon-icon"></i>9:00 AM – 8:00 PM</li>
+                        </ul>
+                    </div>
+                    <div class="col-auto">
+                        <div class="tt-dropdown-obj tt-account">
+                            <a href="#" class="tt-dropdown-toggle">
+                                <i class="icon-user"></i>
+                            </a>
+                            <div class="tt-dropdown-menu">
+                                <div class="tt-row-close">
+                                    <a href="#" class="tt-btn-close icon-close"></a>
+                                </div>
+                                <ul>
+                                    @await Html.PartialAsync("_LoginPartial")
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- header-holder -->
+        <div class="header-holder">
+            <div class="container">
+                <div class="row">
+                    <!--logo-->
+                    <div class="col-logo">
+                        <a class="tt-logo" href="/">
+                            <img src="images/logo.png" alt="">
+                        </a>
+                    </div>
+                    <!--desctope-menu-->
+                    <div class="col-menu col-auto mr-auto ">
+                        <div class="tt-desctop-menu" id="tt-desctop-menu">
+                            <nav>
+                                <ul>
+                                    <li>
+                                        <a asp-area="" asp-controller="Home" asp-action="Index">HOME</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="" asp-controller="Home" asp-action="About">ABOUT US</a>
+                                    </li>
+                                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">CONTACTS</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <!--btn toggle modal-->
+                    <div class="col-btn-toggle-modal col-auto">
+                        <a class="btn btn-toggle-modal" asp-area="Ad" asp-controller="Ad" asp-action="Create" >
+                            <i class="icon-addcar"></i><span class="tt-text">ADD YOUR ITEM</span>
+                        </a>
+                    </div>
+                    <!--btn toggle mobile menu-->
+                    <div class="col-menu-toggle col-auto">
+                        <a href="#" class="tt-menu-toggle icon-menu"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- stuck nav -->
+        <div id="tt-stuck">
+            <div class="container">
+                <div class="tt-stuck-row">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="tt-pageContent">
+        <div class="container-indent no-margin">
+            <div class="mainSlider-layout">
+                <div class="slide">
+                    <div class="img--holder" data-bg="/images/custom/header-sub-menu.jpg"></div>
+                </div>
+            </div>
+        </div>
+
+        @RenderBody()
+    </div>
+
+    <footer id="tt-footer">
+        <div class="tt-footer-layout">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div id="tt-footer-menu">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col col-auto">
+                        <a class="tt-logo" href="index.html">
+                            <img class="tt-logo-dark svg-img" src="images/logo.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="tt-row-custom">
+                    <div class="tt-col">
+                        <ul class="tt-list-info">
+                            <li>
+                                <i class="icon-149984"></i>
+                                3261 Anmoore Road, Brooklyn, NY 11230
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="icon-15874"></i>
+                                    +01 123 456 78
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:info@youremal.com">
+                                    <i class="icon-mail"></i>
+                                    info@youremal.com
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tt-col">
+                        <div class="tt-box-info">
+                            <div class="tt-item">
+                                <h6 class="tt-ttile"><i class="icon-icon"></i>Sales Department</h6>
+                                <ul>
+                                    <li>Mon-Sat : 8:00am - 5:00pm</li>
+                                    <li>Sunday is closed</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tt-col">
+                        <div class="tt-box-info">
+                            <div class="tt-item">
+                                <h6 class="tt-ttile"><i class="icon-icon"></i>Service Department</h6>
+                                <ul>
+                                    <li>Mon-Sat : 8:00am - 5:00pm</li>
+                                    <li>Sunday is closed</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col col-auto">
+                        <ul class="tt-social-icon">
+                            <li><a href="https://www.facebook.com/" target="_blank" class="icon-226234"></a></li>
+                            <li><a href="https://twitter.com" target="_blank" class="icon-8800"></a></li>
+                            <li><a href="https://www.google.com/" target="_blank" class="icon-733613"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tt-footer-copyright">
+            <div class="container">
+                <span>&copy; Copyright 2018 Car Leader</span> <a href="#">PRIVACY POLICY</a>
+            </div>
+        </div>
+    </footer>
+    <a href="#" id="ttBackToTop" class="tt-back-to-top">BACK TO TOP</a>
+    
+        <environment include="Development">
+            <script src="/external/jquery/jquery.min.js"></script>
+            <script src="/external/bootstrap/js/bootstrap.min.js"></script>
+            <script src="/external/slick/slick.min.js"></script>
+            <script src="/external/panelmenu/panelmenu.js"></script>
+            <script src="/external/nice-select/jquery.nice-select.min.js"></script>
+            <script src="/external/noUiSlider/nouislider.min.js"></script>
+            <script src="/external/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+            <script src="/external/magnific-popup/jquery.magnific-popup.min.js"></script>
+            <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+            <script src="/js/main.js"></script>
+            <!-- form validation and sending to mail -->
+            <script src="/external/form/jquery.form.js"></script>
+            <script src="/external/form/jquery.validate.min.js"></script>
+            <script src="/external/form/jquery.form-init.js"></script>
+        </environment>
+        <environment exclude="Development">
+            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                    asp-fallback-test="window.jQuery"
+                    crossorigin="anonymous"
+                    integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+            </script>
+            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                    crossorigin="anonymous"
+                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+            </script>
+            <script src="~/js/site.min.js" asp-append-version="true"></script>
+        </environment>
+
+        @RenderSection("Scripts", required: false)
+</body>
+</html>

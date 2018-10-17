@@ -1,0 +1,54 @@
+@using System.Security.Claims
+@using CarDealer.Models
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+<form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="align-content-center">
+    @if (User.IsInRole(WebConstants.AdministratorRole))
+    {
+        <li class="text-md-center">
+            <a asp-area="Admin" asp-controller="User" asp-action="Index" asp-route-id="@UserManager.GetUserId(User)"><i class="icon-user">All users</i></a>
+        </li>
+        <li class="text-md-center">
+            <a asp-area="Admin" asp-controller="Report" asp-action="Index"><i class="icon-1">Reported ads</i></a>
+        </li>
+        <li class="text-md-center">
+            <a asp-area="Admin" asp-controller="Manufacturer" asp-action="Index"><i class="icon-tradein">All manufacturers</i></a>
+        </li>
+    }
+    @if (User.IsInRole(WebConstants.SeniorAdministratorRole))
+    {
+        <li class="text-md-center">
+            <a asp-area="Admin" asp-controller="User" asp-action="Index" asp-route-id="@UserManager.GetUserId(User)"><i class="icon-user">All users</i></a>
+        </li>
+        <li class="text-md-center">
+            <a asp-area="Admin" asp-controller="Report" asp-action="Index"><i class="icon-1">Reported ads</i></a>
+        </li>
+        <li class="text-md-center">
+            <a asp-area="Admin" asp-controller="Manufacturer" asp-action="Index"><i class="icon-tradein">All manufacturers</i></a>
+        </li>
+        <li class="text-md-center">
+            <a asp-area="Admin" asp-controller="Log" asp-action="Index"><i class="icon-tradein">Admin activity</i></a>
+        </li>
+    }
+    <li class="text-md-center">
+        <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My account!</a>
+    </li>
+    <li class="text-md-center">
+        <a asp-area="Ad" asp-controller="Ad" asp-action="Index" asp-route-id="@UserManager.GetUserId(User)"><i class="icon-tradein">My ads</i></a>
+    </li>
+    <li class="text-md-center">
+        <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>
+    </li>
+
+</form>
+}
+else
+{
+    <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
+    <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+}

@@ -1,0 +1,395 @@
+﻿@model IndexViewModel
+@*<div id="tt-pageContent">*@
+
+<div class="container-indent no-margin">
+    <div class="container">
+        <form method="get" asp-controller="search" asp-action="result">
+            <div class="tt-search-filter">
+                <i class="tt-icon-filter icon-carsearch"></i>
+                <div class="tt-col-title">
+                    Find Your<br> Perfect Car
+                </div>
+                <div class="tt-col-select">
+                    <select asp-for="ManufacturerId" asp-items="@Model.AllManufacturers" class="tt-row-select" data-select="1.">
+                        <option disabled selected>--- SELECT ---</option>
+                    </select>
+                    <div class="tt-item" style="margin-left: 10px;">
+                        <select id="ModelName" asp-for="ModelName" asp-items="@(new SelectList(string.Empty))" class="tt-row-select" data-select="2.">
+                            <option disabled selected>--- All ---</option>
+                        </select>
+                    </div>
+                   
+                </div>
+                <div class="tt-col-btn">
+                    <button type="submit" class="btn tt-icon-left"><i class="icon-musica-searcher"></i><span class="tt-mobile-hide"></span>CARS</button>
+                    ...or go to &nbsp <a asp-controller="search" asp-action="index" class="text-primary">Advanced search options</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="container-indent">
+    <div class="container">
+        <div class="tt-block-title">
+            <h1 class="tt-title">Welcome to <span class="tt-defaul-color">Car</span> Leader</h1>
+            <div class="tt-description">The Easiest Way to Find Your Next Car</div>
+        </div>
+        <div class="tt-text-center ws-short-structure">
+            For 25 years, Car Leader has been raising the standard of used car retailing with one of the most innovative and reliable used vehicle programmes ever created. A comprehensive range of benefits as standard has evolved over time and, today, drivers can leave the forecourt with total reassurance and peace of mind.
+            <span class="tt-hide-block">
+                For used vehicles, we calculate a fair retail price based on a detailed analysis of comparable current and previous car listings in a given market. We call this estimate the Car Leader Instant Market Value.
+            </span>
+        </div>
+        <div class="ws-short-btn">
+            <a href="#" target="_blank" class="ws-btn-more">READ MORE</a>
+        </div>
+    </div>
+</div>
+<div class="container-indent">
+    <div class="tt-promo-02" data-bg="images/custom/box-parallax02.jpg">
+        <div class="container">
+            <div class="tt-block-title">
+                <h3 class="tt-title">We Make It Easy</h3>
+                <div class="tt-description">How It Works</div>
+            </div>
+            <div class="tt-promo-02-layout">
+                <a class="tt-item">
+                    <div class="box-icon">
+                        <div class="tt-line-dotted tt-right"></div>
+                        <i class="icon-carsearch2"></i>
+                    </div>
+                    <h6 class="tt-title">View Our Inventory</h6>
+                </a>
+                <div class="tt-item-smal">
+                    <div class="box-icon">
+                        <i class="icon-right-arrow"></i>
+                    </div>
+                </div>
+                <a class="tt-item">
+                    <div class="box-icon">
+                        <div class="tt-line-dotted tt-left"></div>
+                        <div class="tt-line-dotted tt-right"></div>
+                        <i class="icon-tradein"></i>
+                    </div>
+                    <h6 class="tt-title">Value Your Trade-In</h6>
+                </a>
+                <div class="tt-item-smal">
+                    <div class="box-icon">
+                        <i class="icon-right-arrow"></i>
+                    </div>
+                </div>
+                <a class="tt-item">
+                    <div class="box-icon">
+                        <div class="tt-line-dotted tt-left"></div>
+                        <div class="tt-line-dotted tt-right"></div>
+                        <i class="icon-financing"></i>
+                    </div>
+                    <h6 class="tt-title">Get Easy Financing</h6>
+                </a>
+                <div class="tt-item-smal">
+                    <div class="box-icon">
+                        <i class="icon-right-arrow"></i>
+                    </div>
+                </div>
+                <a class="tt-item">
+                    <div class="box-icon">
+                        <div class="tt-line-dotted tt-left"></div>
+                        <i class="icon-payment"></i>
+                    </div>
+                    <h6 class="tt-title">Make A Payment</h6>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-indent no-margin">
+    <div class="tt-layout01-bg">
+        <div class="container">
+            <div class="tt-block-title">
+                <h3 class="tt-title">What We Offer</h3>
+                <div class="tt-description">our featured services</div>
+            </div>
+        </div>
+        <div class="tt-layout01">
+            <div class="layout01-desctope">
+                <div class="container">
+                    <div class="row no-gutters">
+                        <div class="col-6 col-lg-4">
+                            <div class="tt-item tt-icon-right">
+                                <div class="tt-item-icon">
+                                    <i class="icon-car-washing-machine"></i>
+                                </div>
+                                <div class="tt-item-content">
+                                    <h6 class="tt-title">Pre-Sale Preparation</h6>
+                                    <p>
+                                        Before you sell your car, or trade it in to get something bigger or better, we can help you make your car look as good as possible before anyone comes to see it.
+
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-4  ml-auto">
+                            <div class="tt-item">
+                                <div class="tt-item-icon">
+                                    <i class="icon-financing"></i>
+                                </div>
+                                <div class="tt-item-content">
+                                    <h6 class="tt-title">Financing</h6>
+                                    <p>
+                                        Car Leader has formed close relationships with several local and national lenders, so we're able to offer financing rates that many other car dealers can't offer.
+
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row no-gutters">
+                        <div class="col-6 col-lg-4">
+                            <div class="tt-item tt-icon-right tt-icon-bottom">
+                                <div class="tt-item-icon">
+                                    <i class="icon-tradein2"></i>
+                                </div>
+                                <div class="tt-item-content">
+                                    <h6 class="tt-title">Trade-In Service</h6>
+                                    <p>
+                                        Make the most of our simple and hassle-free trade-in program! Our service allows you to purchase a new car at an attractive price, while saving you all the trouble of handling your old car.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-4  ml-auto">
+                            <div class="tt-item  tt-icon-bottom">
+                                <div class="tt-item-icon">
+                                    <i class="icon-testdrive"></i>
+                                </div>
+                                <div class="tt-item-content">
+                                    <h6 class="tt-title">Test Drive Any Car </h6>
+                                    <p>
+                                        We welcome you to stop by and take a look at the pristine inventory we offer. Most importantly, if you have any questions or concerns, speak to the seller immediately.<br>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layout01-mobile">
+                <div class="slider-layout">
+                    <div class="tt-item">
+                        <div class="tt-item-icon">
+                            <i class="icon-car-washing-machine"></i>
+                        </div>
+                        <div class="tt-item-content">
+                            <h6 class="tt-title">Pre-Sale Preparation</h6>
+                            <p>
+                                Before you sell your car, or trade it in to get something bigger or better, we can help you make your car look as good as possible before anyone comes to see it.
+
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tt-item">
+                        <div class="tt-item-icon">
+                            <i class="icon-tradein2"></i>
+                        </div>
+                        <div class="tt-item-content">
+                            <h6 class="tt-title">Trade-In Service</h6>
+                            <p>
+                                Make the most of our simple and hassle-free trade-in program! Our service allows you to purchase a new car at an attractive price, while saving you all the trouble of handling your old car.
+
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tt-item">
+                        <div class="tt-item-icon">
+                            <i class="icon-financing"></i>
+                        </div>
+                        <div class="tt-item-content">
+                            <h6 class="tt-title">Financing</h6>
+                            <p>
+                                Car Leader has formed close relationships with several local and national lenders, so we're able to offer financing rates that many other car dealers can't offer.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tt-item">
+                        <div class="tt-item-icon">
+                            <i class="icon-testdrive"></i>
+                        </div>
+                        <div class="tt-item-content">
+                            <h6 class="tt-title">Test Drive Any Car</h6>
+                            <p>
+                                We welcome you to stop by and take a look at the pristine inventory we offer. Most importantly, if you have any questions or concerns, speak to the seller immediately.
+                                <br>
+                                <a class="link-tel" href="#">+01 123 456 78</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-indent no-margin">
+    <div class="tt-promo-01" data-bg="images/custom/box-promo01.jpg">
+        <div class="container">
+            <div class="tt-block-title">
+                <h3 class="tt-title">What Have We Achieved</h3>
+                <div class="tt-description">Real Figures</div>
+            </div>
+            <div class="tt-promo-layout counter-js slider-layout">
+                <div class="tt-item">
+                    <div class="box-value">
+                        <i class="icon-vehicles"></i>
+                        <span><span class="tt-counter" data-from="0" data-to="4567">0</span></span>
+                    </div>
+                    <h6 class="tt-title">Vehicles In Stock</h6>
+                </div>
+                <div class="tt-item">
+                    <div class="box-value">
+                        <i class="icon-awards"></i>
+                        <span><span class="tt-counter" data-from="0" data-to="254">0</span></span>
+                    </div>
+                    <h6 class="tt-title">Awards</h6>
+                </div>
+                <div class="tt-item">
+                    <div class="box-value">
+                        <i class="icon-customers"></i>
+                        <span><span class="tt-counter" data-from="0" data-to="100">0</span>%</span>
+                    </div>
+                    <h6 class="tt-title">Happy Customers</h6>
+                </div>
+                <div class="tt-item">
+                    <div class="box-value">
+                        <i class="icon-staff"></i>
+                        <span><span class="tt-counter" data-from="0" data-to="50">0</span>+</span>
+                    </div>
+                    <h6 class="tt-title">Qualified Staff</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-indent">
+    <div class="box-reviews">
+        <div class="container">
+            <div class="tt-block-title">
+                <h3 class="tt-title">Our Testimonials</h3>
+                <div class="tt-description">What our happy clients say about us</div>
+            </div>
+            <div class="tt-reviews-carousel js-reviews-carousel tt-arrow-center slick-alignment-arrows" data-dots="true">
+                <div class="tt-reviews-content">
+                    <div class="box-show-rating">
+                        <div class="tt-rating">
+                            <i class="icon-star"></i>
+                            <i class="icon-star"></i>
+                            <i class="icon-star"></i>
+                            <i class="icon-star"></i>
+                            <i class="icon-star"></i>
+                        </div>
+                    </div>
+                    Great treatment right form the get go. Was looking at a car that had just arrived on the lot so it wasn't immediately available for
+                    a test drive and didn't have a price yet, but my salesman, kept me fully apprised of the situation. Offered a refundable deposit
+                    until I could test drive it and make a decision. Great car, great sales team.
+                    <p class="tt-title">
+                        Charles M. Worsham, <span>Toyota C-HR Eclipse</span>
+                    </p>
+                </div>
+                <div class="tt-reviews-content">
+                    <div class="box-show-rating">
+                        <div class="tt-rating">
+                            <i class="icon-star"></i>
+                            <i class="icon-star"></i>
+                            <i class="icon-star"></i>
+                            <i class="icon-star"></i>
+                            <i class="icon-star"></i>
+                        </div>
+                    </div>
+                    Great treatment right form the get go. Was looking at a car that had just arrived on the lot so it wasn't immediately available for
+                    a test drive and didn't have a price yet, but my salesman, kept me fully apprised of the situation. Offered a refundable deposit
+                    until I could test drive it and make a decision. Great car, great sales team.
+                    <p class="tt-title">
+                        Charles M. Worsham, <span>Toyota C-HR Eclipse</span>
+                    </p>
+                </div>
+                <div class="tt-reviews-content">
+                    <div class="box-show-rating">
+                        <div class="tt-rating">
+                            <i class="icon-star"></i>
+                            <i class="icon-star"></i>
+                            <i class="icon-star"></i>
+                            <i class="icon-star"></i>
+                            <i class="icon-star"></i>
+                        </div>
+                    </div>
+                    Great treatment right form the get go. Was looking at a car that had just arrived on the lot so it wasn't immediately available for
+                    a test drive and didn't have a price yet, but my salesman, kept me fully apprised of the situation. Offered a refundable deposit
+                    until I could test drive it and make a decision. Great car, great sales team.
+                    <p class="tt-title">
+                        Charles M. Worsham, <span>Toyota C-HR Eclipse</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="box-reviews-img">
+            <div class="slide-img01 tt-show"><img src="images/custom/parallax01-img01.png" alt=""></div>
+            <div class="slide-img02"><img src="images/custom/parallax01-img02.png" alt=""></div>
+            <div class="slide-img03"><img src="images/custom/parallax01-img03.png" alt=""></div>
+        </div>
+    </div>
+</div>
+<div class="container-indent">
+    <div class="container">
+        <div class="tt-block-title tt-title-custom">
+            <h3 class="tt-title">Sell Your Car Quickly and Easily with Us</h3>
+            <div class="tt-description">It is really easy to sell your car!</div>
+        </div>
+        <div class="text-center tt-indent-btn">
+            <a class="btn" asp-area="Ad" asp-controller="Ad" asp-action="Create">SUBMIT YOUR VEHICLE NOW</a>
+        </div>
+    </div>
+</div>
+<div class="container-indent container-indent-03 tt-mobile-hidden">
+    <div class="tt-map">
+        <a href="#" class="tt-btn-toggle"></a>
+        <div class="tt-box-map">
+            <div id="googleMapFooter" class="google-map"></div>
+        </div>
+    </div>
+</div>
+@*</div>*@
+
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var items2 = "<option>--- All ---</option>";
+            var items = '<li data-value="--- All ---" class="option disabled">--- All ---</li>';
+            $('#ModelName').next('div').find('ul').html(items);
+            $('#ModelName').html(items2);
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#ManufacturerId').on('change', function () {
+                var url = '/Vehicle/Vehicle/GetModelsByManufacturerId';
+                var ddlSourse = "#ManufacturerId";
+                $.getJSON(url, { manufacturerId: $(ddlSourse).val() }, function (data) {
+                    console.log(data);
+                    var items = '<li data-value="--- All ---" class="option disabled">--- All ---</li>';
+                    var items2 = "<option>--- All ---</option>";
+                    $('#ModelName').next('div').find('ul').empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var item = `<li data-value="${data[i].text}" class="option focus">${data[i].text}</li\>`;
+                        items += item;
+                    }
+                    $.each(data, function (i, vehModel) {
+                        items2 += "<option>" + vehModel.text + "</option>";
+                    });
+                    $('#ModelName').next('div').find('ul').html(items);
+                    $('#ModelName').html(items2);
+                });
+            });
+        });
+    </script>
+}

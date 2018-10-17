@@ -1,0 +1,120 @@
+﻿@model UserListingViewModel
+
+<div class="container" style="margin-bottom: 15px">
+    <div class="col-md-4 form-inline">
+        <form method="get" class="form-inline">
+            <div class="col-md-4"></div>
+            <div class="tt-wrapper-aside">
+                <div class="tt-aside-box">
+                    <h3 class="tt-aside-title">Search</h3>
+                    <div class="tt-content">
+                        <div class="tt-form-search tt-form-default">
+                            <div class="tt-item">
+                                <input asp-for="SearchTerm" placeholder="SEARCH">
+                            </div>
+                            <div class="tt-item">
+                                <button type="submit" class="btn"><i class="icon-musica-searcher"></i>SEARCH</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <table class="table table-dark table-striped table-responsive table-hover">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Add to role</th>
+                <th>Remove from role</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                if (User.IsInRole(WebConstants.AdministratorRole))
+                {
+                    user.NonCurrentRoles.Remove(WebConstants.SeniorAdministratorRole);
+                    //user.CurrentRoles.Remove(WebConstants.seniorAdministratorRole);
+
+                    var isSeniorAdmin = user.CurrentRoles.Contains(WebConstants.SeniorAdministratorRole);
+                    if (isSeniorAdmin)
+                    {
+                        continue;
+                    }
+                }
+                if (User.Identity.Name == user.Email)
+                {
+                    continue;
+                }
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => user.Email)
+                    </td>
+                    <td>
+                        @(user.CurrentRoles.Any() ? string.Join(", ", user.CurrentRoles) : "None")
+                    </td>
+                    <td>
+                        <div class="form-inline">
+                            <form asp-action="AddToRole" method="post">
+                                <input type="submit" class="btn btn-warning" value="Add to role" />
+                                <input type="hidden" name="userEmail" value="@user.Email" />
+                                <select name="role" asp-items="@(new SelectList(user.NonCurrentRoles))" class="form-control">
+                                    <option disabled selected>--- Select ---</option>
+                                </select>
+                            </form>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-inline">
+                            <form asp-action="RemoveFromRole" method="post">
+                                <input type="submit" class="btn btn-warning" value="Remove from role" />
+                                <input type="hidden" name="userEmail" value="@user.Email" />
+                                <select name="role" asp-items="@(new SelectList(user.CurrentRoles))" class="form-control">
+                                    <option disabled selected>--- Select ---</option>
+                                </select>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@{
+    var prevDisabled = !Model.Users.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Users.HasNextPage ? "disabled" : "";
+    var firstDisabled = Model.Users.PageIndex == 1 ? "disabled" : "";
+    var lastDisabled = Model.Users.TotalPages <= Model.Users.PageIndex ? "disabled" : "";
+}
+<div class="text-center" style="margin-bottom: 15px;">
+    <a asp-route-page="1"
+       asp-route-searchTerm="@Model.SearchTerm"
+       class="btn btn-default @firstDisabled">
+        First page
+    </a>
+    <a asp-route-page="@(Model.Users.PageIndex - 1)"
+       asp-route-searchTerm="@Model.SearchTerm"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <span class="btn btn-group">
+        @Model.Users.PageIndex
+    </span>
+    <a asp-route-page="@(Model.Users.PageIndex + 1)"
+       asp-route-searchTerm="@Model.SearchTerm"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
+    <a asp-route-page="@(Model.Users.TotalPages)"
+       asp-route-searchTerm="@Model.SearchTerm"
+       class="btn btn-default @lastDisabled">
+        Last page
+    </a>
+</div>

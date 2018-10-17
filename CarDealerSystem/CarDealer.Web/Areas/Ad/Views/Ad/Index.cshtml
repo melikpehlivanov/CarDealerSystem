@@ -1,0 +1,107 @@
+﻿@model AdsListingViewModel
+
+<h1 style="text-align: center">My ads</h1>
+
+<div class="container" style="margin-bottom: 15px">
+    <div class="col-md-4 form-inline">
+        <form method="get" class="form-inline">
+            <div class="tt-wrapper-aside">
+                <div class="tt-aside-box">
+                    <h3 class="tt-aside-title">Search</h3>
+                    <div class="tt-content">
+                        <div class="tt-form-search tt-form-default">
+                            <div class="tt-item">
+                                <input asp-for="SearchTerm" placeholder="SEARCH">
+                            </div>
+                            <div class="tt-item">
+                                <button type="submit" class="btn"><i class="icon-musica-searcher"></i>SEARCH</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@{
+    var userEmail = Model.Ads.Select(u => u.UserEmail).FirstOrDefault();
+}
+
+<div class="container">
+    <table class="table table-dark table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Picture</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var ad in Model.Ads)
+        {
+            <tr>
+                <td>@ad.CreationDate</td>
+                <td>
+                    <a asp-area="Ad" asp-controller="Ad" asp-action="Details" asp-route-id="@ad.Id">
+                        <img src="@ad.Vehicle.PicturePath" style="width: fit-content; height: 100px;">
+                    </a>
+                </td>
+                <td>@ad.Vehicle.FullModelName</td>
+                <td>$@ad.Vehicle.Price.ToString("F2")</td>
+                <td>
+                    <a class="btn" asp-area="Ad" asp-controller="Ad" asp-action="Details" asp-route-id="@ad.Id">Details</a>
+                    @if (User.Identity.Name == userEmail && User.IsInRole(WebConstants.AdministratorRole))
+                    {
+                        <a class="btn" asp-area="Ad" asp-controller="Ad" asp-action="Edit" asp-route-id="@ad.Id">Edit</a>
+                        <a class="btn" asp-area="Ad" asp-controller="Ad" asp-action="Delete" asp-route-id="@ad.Id">Delete</a>
+                    }
+                    @if (User.IsInRole(WebConstants.AdministratorRole) && User.Identity.Name != userEmail)
+                    {
+                        <a class="btn" asp-area="Ad" asp-controller="Ad" asp-action="Delete" asp-route-id="@ad.Id">Delete</a>
+                    }
+                    @if (User.Identity.Name == userEmail && !User.IsInRole(WebConstants.AdministratorRole))
+                    {
+                        <a class="btn" asp-area="Ad" asp-controller="Ad" asp-action="Edit" asp-route-id="@ad.Id">Edit</a>
+                        <a class="btn" asp-area="Ad" asp-controller="Ad" asp-action="Delete" asp-route-id="@ad.Id">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+@{
+    var prevDisabled = !Model.Ads.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Ads.HasNextPage ? "disabled" : "";
+    var firstDisabled = Model.Ads.PageIndex == 1 ? "disabled" : "";
+    var lastDisabled = Model.Ads.TotalPages <= Model.Ads.PageIndex ? "disabled" : "";
+}
+<div class="text-center" style="margin-bottom: 15px;">
+    <a asp-route-page="1"
+       asp-route-searchTerm="@Model.SearchTerm"
+       class="btn btn-default @firstDisabled">
+        First page
+    </a>
+    <a asp-route-page="@(Model.Ads.PageIndex - 1)"
+       asp-route-searchTerm="@Model.SearchTerm"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <span class="btn btn-group">
+        @Model.Ads.PageIndex
+    </span>
+    <a asp-route-page="@(Model.Ads.PageIndex + 1)"
+       asp-route-searchTerm="@Model.SearchTerm"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
+    <a asp-route-page="@(Model.Ads.TotalPages)"
+       asp-route-searchTerm="@Model.SearchTerm"
+       class="btn btn-default @lastDisabled">
+        Last page
+    </a>
+</div>
