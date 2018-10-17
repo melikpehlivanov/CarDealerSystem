@@ -90,7 +90,7 @@
                 .Ads
                 .Where(a => a.Id == id)
                 .ProjectTo<AdDetailsServiceModel>(this.mapper.ConfigurationProvider)
-                .SingleOrDefaultAsync(a=> a.Id == id);
+                .SingleOrDefaultAsync();
 
         public string GetAdOwnerEmail(int id)
             => this.db
