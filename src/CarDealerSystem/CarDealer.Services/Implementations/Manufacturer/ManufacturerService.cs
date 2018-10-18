@@ -31,9 +31,11 @@
         public async Task<int> CreateAsync(string name)
         {
             var manufacturer = new Manufacturer { Name = name };
-
+            
             try
             {
+                this.ValidateEntityState(manufacturer);
+
                 await this.db.AddAsync(manufacturer);
                 await this.db.SaveChangesAsync();
 
@@ -89,6 +91,7 @@
 
             try
             {
+                this.ValidateEntityState(manufacturer);
                 this.db.Manufacturers.Update(manufacturer);
                 await this.db.SaveChangesAsync();
 
