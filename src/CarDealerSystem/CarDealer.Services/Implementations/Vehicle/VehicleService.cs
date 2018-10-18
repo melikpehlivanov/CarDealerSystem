@@ -59,6 +59,15 @@
                         v.Price >= minPrice &&
                         v.Price <= maxPrice);
 
+                if (fuelTypeId != default(int))
+                {
+                    query = query.Where(v => v.FuelTypeId == fuelTypeId);
+                }
+                if (transmissionTypeId != default(int))
+                {
+                    query = query.Where(v => v.TransmissionTypeId == transmissionTypeId);
+                }
+
                 return query
                     .ProjectTo<VehicleSearchServiceModel>(this.configuration)
                     .OrderBy(v => v.Id);
