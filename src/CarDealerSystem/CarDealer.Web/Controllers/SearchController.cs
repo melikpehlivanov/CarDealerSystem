@@ -83,8 +83,8 @@
 
             var allManufacturers = await this.manufacturers.AllAsync();
             var availableYears = Enumerable.Range(1990, DateTime.UtcNow.Year - 1990 + 1);
-            var allFuelTypes = await this.vehicleElements.GetFuelTypes();
-            var allGearingTypes = await this.vehicleElements.GetTransmissionTypes();
+            var allFuelTypes = await this.vehicleElements.GetFuelTypesAsync();
+            var allGearingTypes = await this.vehicleElements.GetTransmissionTypesAsync();
             var totalCount = vehicles.Count();
 
             var model = new SearchViewModel(

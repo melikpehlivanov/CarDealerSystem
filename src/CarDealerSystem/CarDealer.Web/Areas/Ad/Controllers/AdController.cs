@@ -376,7 +376,7 @@
             var listFromCache = await this.cache.GetStringAsync(TransmissionTypesCacheKey);
             if (listFromCache == null)
             {
-                var transmissionTypes = await this.vehicleElements.GetTransmissionTypes();
+                var transmissionTypes = await this.vehicleElements.GetTransmissionTypesAsync();
                 list = transmissionTypes.Select(x => new SelectListItem(x.Name.ToString(), x.Id.ToString()));
                 var expiration = TimeSpan.FromDays(WebConstants.StaticElementsCacheExpirationInDays);
 
@@ -397,7 +397,7 @@
             var listFromCache = await this.cache.GetStringAsync(FuelTypesCacheKey);
             if (listFromCache == null)
             {
-                var fuelTypes = await this.vehicleElements.GetFuelTypes();
+                var fuelTypes = await this.vehicleElements.GetFuelTypesAsync();
                 list = fuelTypes.Select(f => new SelectListItem(f.Name.ToString(), f.Id.ToString()));
                 var expiration = TimeSpan.FromDays(WebConstants.StaticElementsCacheExpirationInDays);
 

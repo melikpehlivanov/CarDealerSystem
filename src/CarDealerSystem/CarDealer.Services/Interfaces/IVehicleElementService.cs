@@ -6,8 +6,8 @@
 
     public interface IVehicleElementService
     {
-        Task<IEnumerable<TransmissionType>> GetTransmissionTypes();
-        Task<IEnumerable<FuelType>> GetFuelTypes();
+        Task<IEnumerable<TransmissionType>> GetTransmissionTypesAsync();
+        Task<IEnumerable<FuelType>> GetFuelTypesAsync();
         Task<List<Feature>> GetFeaturesByIdAsync(int id);
         Task<List<Feature>> GetFeaturesAsync();
     }

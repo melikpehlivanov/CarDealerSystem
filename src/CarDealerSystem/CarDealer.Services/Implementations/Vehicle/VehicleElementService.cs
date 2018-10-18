@@ -15,7 +15,7 @@
         {
         }
 
-        public async Task<IEnumerable<FuelType>> GetFuelTypes()
+        public async Task<IEnumerable<FuelType>> GetFuelTypesAsync()
             => await this.db.FuelTypes.ToListAsync();
 
         public async Task<List<Feature>> GetFeaturesByIdAsync(int id)
@@ -33,7 +33,7 @@
         public async Task<List<Feature>> GetFeaturesAsync()
             => await this.db.Features.ToListAsync();
 
-        public async Task<IEnumerable<TransmissionType>> GetTransmissionTypes()
+        public async Task<IEnumerable<TransmissionType>> GetTransmissionTypesAsync()
             => await this.db.TransmissionTypes.ToListAsync();
     }
 }

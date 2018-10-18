@@ -54,7 +54,7 @@
                     .Where(v =>
                         !v.IsDeleted &&
                         v.ManufacturerId == manufacturerId &&
-                        v.Model.Name.ToLower().StartsWith(series) &&
+                        v.Model.Name.ToLower().StartsWith(series.ToLower()) &&
                         v.EngineHorsePower >= minEngineHorsePower &&
                         v.YearOfProduction >= yearOfManufacture &&
                         v.TotalMileage >= maximumKilometers &&
@@ -117,7 +117,7 @@
 
             try
             {
-
+                this.ValidateEntityState(newModel);
                 await this.db.Models.AddAsync(newModel);
                 await this.db.SaveChangesAsync();
 
@@ -160,7 +160,7 @@
             try
             {
                 model.Name = name;
-
+                this.ValidateEntityState(model);
                 this.db.Update(model);
                 await this.db.SaveChangesAsync();
 
