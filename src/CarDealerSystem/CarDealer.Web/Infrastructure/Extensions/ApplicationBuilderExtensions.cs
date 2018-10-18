@@ -29,7 +29,7 @@
                 dbContext.Database.Migrate();
                 SeedRequiredData(dbContext);
 
-                // Delete or comment this method if you'd like to NOT have initial database with users and vehicles.
+                // Delete (Not recommended) or comment this method if you'd like to NOT have initial database with users and vehicles.
                 SeedOptionalData(serviceScope, dbContext);
             }
 
@@ -84,10 +84,10 @@ Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
                 var ads = new List<Ad>();
                 foreach (var user in usersIds)
                 {
-                    for (int manufacturerIndex = 0; manufacturerIndex < manufacturers.Count / 2; manufacturerIndex++)
+                    for (int manufacturerIndex = 0; manufacturerIndex < manufacturers.Count; manufacturerIndex++)
                     {
-                        //var model = manufacturer.Models.ToList()[random.Next(1, manufacturer.Models.Count())];
-                        var model = manufacturers[manufacturerIndex].Models.Take(10).ToList();
+                        //var model = manufacturers[manufacturerIndex].Models.Take(10).ToList();
+                        var model = manufacturers[manufacturerIndex].Models.Take(random.Next(1, manufacturers.Count)).ToList();
                         foreach (var vehicleModel in model)
                         {
                             for (int vehicleCount = 0; vehicleCount < random.Next(10); vehicleCount++)
