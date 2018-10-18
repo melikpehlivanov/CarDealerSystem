@@ -24,7 +24,7 @@
 
             var vehicle = await this.db
                 .Vehicles
-                .FirstOrDefaultAsync(v => v.Id == vehicleId);
+                .SingleOrDefaultAsync(v => v.Id == vehicleId && !v.IsDeleted);
             if (vehicle == null)
             {
                 return false;
@@ -32,6 +32,7 @@
 
             try
             {
+                this.ValidateEntityState(picture);
                 await this.db.Pictures.AddAsync(picture);
                 vehicle.Pictures.Add(picture);
                 this.db.Update(vehicle);
@@ -53,7 +54,7 @@
                 .Where(p => p.VehicleId == vehicleId)
                 .ToListAsync();
 
-            if (picture == null)
+            if (picture == null || !picture.Any())
             {
                 return false;
             }
