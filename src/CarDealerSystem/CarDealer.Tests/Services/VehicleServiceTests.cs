@@ -69,10 +69,11 @@
         public async Task CreateAsync_WithAlreadyExistingModel_ShouldReturnFalse()
         {
             // Arrange
-            this.SeedManufacturer(1, SampleManufacturerName);
-            this.SeedModel(1, SampleModelName);
+            const int id = 1;
+            this.SeedManufacturer(id, SampleManufacturerName);
+            this.SeedModel(id, SampleModelName, id);
             // Act
-            var result = await this.vehicleService.CreateAsync(SampleModelName, 1);
+            var result = await this.vehicleService.CreateAsync(SampleModelName, id);
 
             // Assert
             result
@@ -80,39 +81,43 @@
                 .BeFalse();
         }
 
-        [Fact]
-        public void Get_ShouldReturnCorrectModel()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void Get_ShouldReturnCorrectModel(int id)
         {
             // Arrange
-            this.SeedManufacturer(1, SampleManufacturerName);
-            this.SeedModel(1, SampleModelName);
+            this.SeedManufacturer(id, SampleManufacturerName);
+            this.SeedModel(1, SampleModelName, id);
             this.SeedVehicles(10);
 
             // Act
             var result = this.vehicleService
-                .Get(1, 1, SampleModelName, SampleFuelTypeId, SampleTransmissionTypeId, 0, 0, decimal.MinValue, decimal.MaxValue)
+                .Get(1, id, SampleModelName, SampleFuelTypeId, SampleTransmissionTypeId, 0, 0, decimal.MinValue, decimal.MaxValue)
                 .ToList();
 
             // Assert
             result
                 .Should()
-                .NotBeNull()
+                .NotBeNullOrEmpty()
                 .And
                 .AllBeAssignableTo<VehicleSearchServiceModel>();
         }
 
-        [Fact]
-        public void Get_ShouldReturnCorrectCountOfVehicles()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void Get_ShouldReturnCorrectCountOfVehicles(int id)
         {
             // Arrange
             const int vehiclesCount = 10;
-            this.SeedManufacturer(1, SampleManufacturerName);
-            this.SeedModel(1, SampleModelName);
+            this.SeedManufacturer(id, SampleManufacturerName);
+            this.SeedModel(1, SampleModelName, id);
             this.SeedVehicles(vehiclesCount);
 
             // Act
             var result = this.vehicleService
-                .Get(1, 1, SampleModelName, SampleFuelTypeId, SampleTransmissionTypeId, 0, 0, decimal.MinValue, decimal.MaxValue)
+                .Get(1, id, SampleModelName, SampleFuelTypeId, SampleTransmissionTypeId, 0, 0, decimal.MinValue, decimal.MaxValue)
                 .ToList();
 
             // Assert
@@ -123,28 +128,30 @@
                 .HaveCount(vehiclesCount);
         }
 
-        [Fact]
-        public void Get_ShouldFilterManufacturerCorrectly()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void Get_ShouldFilterManufacturerCorrectly(int id)
         {
             // Arrange
             const int notMatchedVehicleId = 3;
             const int expectedVehiclesCount = 2;
-            this.SeedManufacturer(1, SampleManufacturerName);
-            this.SeedManufacturer(2, "another manufacturer");
-            this.SeedModel(1, SampleModelName);
+            this.SeedManufacturer(id, SampleManufacturerName);
+            this.SeedManufacturer(3, "another manufacturer");
+            this.SeedModel(1, SampleModelName, id);
             this.SeedVehicles(expectedVehiclesCount);
             this.dbContext
                 .Add(new Vehicle
                 {
                     Id = notMatchedVehicleId,
-                    ManufacturerId = 2,
+                    ManufacturerId = 3,
                     ModelId = 1,
                 });
             this.dbContext.SaveChanges();
 
             // Act
             var result = this.vehicleService
-                .Get(1, 1, SampleModelName, SampleFuelTypeId, SampleTransmissionTypeId, 0, 0, decimal.MinValue, decimal.MaxValue)
+                .Get(1, id, SampleModelName, SampleFuelTypeId, SampleTransmissionTypeId, 0, 0, decimal.MinValue, decimal.MaxValue)
                 .ToList();
 
             // Assert
@@ -157,28 +164,30 @@
                 .Match<List<VehicleSearchServiceModel>>(l => l.All(v => v.Id != notMatchedVehicleId));
         }
 
-        [Fact]
-        public void Get_ShouldFilterModelCorrectly()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void Get_ShouldFilterModelCorrectly(int id)
         {
             // Arrange
             const int notMatchedVehicleId = 3;
             const int expectedVehiclesCount = 2;
-            this.SeedManufacturer(1, SampleManufacturerName);
-            this.SeedModel(1, SampleModelName);
-            this.SeedModel(2, "Some another test model");
+            this.SeedManufacturer(id, SampleManufacturerName);
+            this.SeedModel(1, SampleModelName, id);
+            this.SeedModel(3, "Some another test model", 3);
             this.SeedVehicles(expectedVehiclesCount);
             this.dbContext
                 .Add(new Vehicle
                 {
                     Id = notMatchedVehicleId,
-                    ManufacturerId = 1,
+                    ManufacturerId = 3,
                     ModelId = 2,
                 });
             this.dbContext.SaveChanges();
 
             // Act
             var result = this.vehicleService
-                .Get(1, 1, SampleModelName, SampleFuelTypeId, SampleTransmissionTypeId, 0, 0, decimal.MinValue, decimal.MaxValue)
+                .Get(1, id, SampleModelName, SampleFuelTypeId, SampleTransmissionTypeId, 0, 0, decimal.MinValue, decimal.MaxValue)
                 .ToList();
 
             // Assert
@@ -191,37 +200,39 @@
                 .Match<List<VehicleSearchServiceModel>>(l => l.All(v => v.Id != notMatchedVehicleId));
         }
 
-        [Fact]
-        public void Get_ShouldFilterEngineHorsePowerCorrectly()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void Get_ShouldFilterEngineHorsePowerCorrectly(int id)
         {
             // Arrange
-            const int notMatchedVehicleIdOne = 3;
-            const int notMatchedVehicleIdTwo = 4;
+            const int notMatchedVehicleIdOne = 10;
+            const int notMatchedVehicleIdTwo = 11;
             const int expectedVehiclesCount = 2;
-            this.SeedManufacturer(1, SampleManufacturerName);
-            this.SeedModel(1, SampleModelName);
+            this.SeedManufacturer(id, SampleManufacturerName);
+            this.SeedModel(1, SampleModelName, id);
             this.SeedVehicles(expectedVehiclesCount);
             this.dbContext
                 .Add(new Vehicle
                 {
                     Id = notMatchedVehicleIdOne,
-                    ManufacturerId = 1,
+                    ManufacturerId = id,
                     ModelId = 1,
-                    EngineHorsePower = 100,
+                    EngineHorsePower = 610,
                 });
             this.dbContext
                 .Add(new Vehicle
                 {
                     Id = notMatchedVehicleIdTwo,
-                    ManufacturerId = 1,
+                    ManufacturerId = id,
                     ModelId = 1,
-                    EngineHorsePower = 400,
+                    EngineHorsePower = 690,
                 });
             this.dbContext.SaveChanges();
 
             // Act
             var result = this.vehicleService
-                .Get(1, 1, SampleModelName, SampleFuelTypeId, SampleTransmissionTypeId, SampleEngineHorsePower, 0, decimal.MinValue, decimal.MaxValue)
+                .Get(1, id, SampleModelName, SampleFuelTypeId, SampleTransmissionTypeId, SampleEngineHorsePower, 0, decimal.MinValue, decimal.MaxValue)
                 .ToList();
 
             // Assert
@@ -236,15 +247,17 @@
                 .Match<List<VehicleSearchServiceModel>>(l => l.All(v => v.Id != notMatchedVehicleIdTwo));
         }
 
-        [Fact]
-        public void Get_ShouldFilterYearOfManufactureCorrectly()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void Get_ShouldFilterYearOfManufactureCorrectly(int id)
         {
             // Arrange
             const int notMatchedVehicleIdOne = 3;
             const int notMatchedVehicleIdTwo = 4;
             const int expectedVehiclesCount = 2;
             this.SeedManufacturer(1, SampleManufacturerName);
-            this.SeedModel(1, SampleModelName);
+            this.SeedModel(1, SampleModelName, id);
             this.SeedVehicles(expectedVehiclesCount);
             this.dbContext
                 .Vehicles
@@ -283,8 +296,10 @@
                 .Match<List<VehicleSearchServiceModel>>(l => l.All(v => v.Id != notMatchedVehicleIdTwo));
         }
 
-        [Fact]
-        public void Get_ShouldFilterTotalMileageCorrectly()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void Get_ShouldFilterTotalMileageCorrectly(int id)
         {
             // Arrange
             const int notMatchedVehicleId = 3;
@@ -292,7 +307,7 @@
             const int expectedVehiclesCount = 2;
 
             this.SeedManufacturer(1, SampleManufacturerName);
-            this.SeedModel(1, SampleModelName);
+            this.SeedModel(1, SampleModelName, id);
             this.SeedVehicles(expectedVehiclesCount);
             this.dbContext
                 .Add(new Vehicle
@@ -334,7 +349,7 @@
         {
             // Arrange
             const int id = 1;
-            this.SeedModel(id, SampleModelName);
+            this.SeedModel(id, SampleModelName, 1);
             this.SeedManufacturer(id, SampleManufacturerName);
             // Act
             var result = await this.vehicleService.GetByManufacturerIdAsync(id);
@@ -365,7 +380,7 @@
             // Arrange
             for (int i = 1; i <= 10; i++)
             {
-                this.SeedModel(i, $"Model_{i}");
+                this.SeedModel(i, $"Model_{i}", i);
                 this.SeedManufacturer(i, $"Manufacturer_{i}");
             }
 
@@ -382,7 +397,7 @@
         public async Task DeleteAsync_WithValidId_ShouldReturnTrue()
         {
             // Arrange
-            this.SeedModel(1, SampleModelName);
+            this.SeedModel(1, SampleModelName, 1);
             this.SeedManufacturer(1, SampleManufacturerName);
             // Act
             var result = await this.vehicleService.DeleteAsync(1);
@@ -405,7 +420,7 @@
             const int count = 4;
             for (int i = 1; i <= count; i++)
             {
-                this.SeedModel(i, $"Model_{i}");
+                this.SeedModel(i, $"Model_{i}", i);
                 this.SeedManufacturer(i, $"Manufacturer_{i}");
             }
 
@@ -422,7 +437,7 @@
         public async Task GetAsync_WithValidId_ShouldReturnCorrectEntity()
         {
             // Arrange
-            this.SeedModel(1, SampleModelName);
+            this.SeedModel(1, SampleModelName, 1);
             this.SeedManufacturer(1, SampleManufacturerName);
 
             // Act
@@ -442,7 +457,7 @@
         [InlineData(10000)]
         public async Task GetAsync_WithInvalidId_ShouldReturnNull(int id)
         {
-            this.SeedModel(1, SampleModelName);
+            this.SeedModel(1, SampleModelName, 1);
             this.SeedManufacturer(1, SampleManufacturerName);
 
             // Act
@@ -461,7 +476,7 @@
             const int id = 1;
             const string newName = "NewName";
 
-            this.SeedModel(id, SampleModelName);
+            this.SeedModel(id, SampleModelName, 1);
             this.SeedManufacturer(id, SampleManufacturerName);
 
             // Act
@@ -483,7 +498,7 @@
             // Arrange
             const int id = 1;
 
-            this.SeedModel(id, SampleModelName);
+            this.SeedModel(id, SampleModelName, 1);
             this.SeedManufacturer(id, SampleManufacturerName);
 
             // Act
@@ -501,7 +516,8 @@
         {
             var vehiclesToSeed = new List<Vehicle>();
             var ads = new List<Ad>();
-
+            var fuelType = new FuelType{Id = 1, Name = Diesel};
+            var manufacturer = this.dbContext.Manufacturers.FirstOrDefault();
             for (int i = 1; i <= vehiclesCount; i++)
             {
                 ads.Add(new Ad { Id = i });
@@ -509,14 +525,14 @@
                 {
                     Id = i,
                     Ads = ads,
-                    Manufacturer = this.dbContext.Manufacturers.FirstOrDefault(),
+                    Manufacturer = manufacturer,
                     Model = this.dbContext.Models.FirstOrDefault(),
-                    ManufacturerId = 1,
+                    ManufacturerId = manufacturer.Id,
                     ModelId = 1,
                     EngineHorsePower = SampleEngineHorsePower,
                     YearOfProduction = SampleYearOfManufacture,
                     FuelTypeId = 1,
-                    FuelType = new FuelType { Name = Diesel },
+                    FuelType = fuelType,
                     TransmissionTypeId = 1,
                     Price = 10,
                     TotalMileage = SampleTotalMileage,
@@ -527,14 +543,14 @@
             this.dbContext.SaveChanges();
         }
 
-        private void SeedModel(int id, string modelName)
+        private void SeedModel(int id, string modelName, int manufacturerId)
         {
             this.dbContext
                 .Add(new Model
                 {
                     Id = id,
                     Name = modelName,
-                    ManufacturerId = 1
+                    ManufacturerId = manufacturerId
                 });
 
             this.dbContext.SaveChanges();
