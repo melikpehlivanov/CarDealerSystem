@@ -26,6 +26,7 @@
 
             try
             {
+                this.ValidateEntityState(log);
                 this.db.Logs.Add(log);
                 this.db.SaveChanges();
 
