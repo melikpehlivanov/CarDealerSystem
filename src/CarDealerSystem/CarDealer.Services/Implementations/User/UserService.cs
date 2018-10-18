@@ -20,6 +20,7 @@
         public IQueryable<UserListingServiceModel> GetAll()
             => this.db
                  .Users
+                 .OrderBy(u => u.Email)
                  .ProjectTo<UserListingServiceModel>(this.configuration);
     }
 }

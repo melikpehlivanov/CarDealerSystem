@@ -4,7 +4,6 @@
     using CarDealer.Models;
     using Data;
     using Interfaces;
-    using Models;
     using Models.Report;
 
     public class ReportService : BaseService, IReportService
