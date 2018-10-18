@@ -88,9 +88,8 @@
         public async Task<AdDetailsServiceModel> GetAsync(int id)
             => await this.db
                 .Ads
-                .Where(a => a.Id == id)
                 .ProjectTo<AdDetailsServiceModel>(this.mapper.ConfigurationProvider)
-                .SingleOrDefaultAsync();
+                .SingleOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
 
         public string GetAdOwnerEmail(int id)
             => this.db
@@ -108,7 +107,7 @@
         public async Task<AdEditServiceModel> GetForUpdateAsync(int id)
             => await this.db
                 .Ads
-                .Where(v => v.Id == id)
+                .Where(a => a.Id == id && !a.IsDeleted)
                 .ProjectTo<AdEditServiceModel>(this.mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync();
 
@@ -117,8 +116,7 @@
             var ad = await this.db
                 .Ads
                 .Include(v => v.Vehicle)
-                .Where(a => a.Id == id)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync(a=> a.Id == id);
 
             if (ad == null)
             {
@@ -191,11 +189,6 @@
                     };
 
                     vehicleFeatures.Add(vehicleFeature);
-                }
-
-                if (!vehicleFeatures.Any())
-                {
-                    return false;
                 }
 
                 vehicle.Features = vehicleFeatures;

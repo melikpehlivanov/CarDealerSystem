@@ -12,6 +12,8 @@
 
         public string UserEmail { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public bool IsReported { get; set; }
 
         public string PhoneNumber { get; set; }
