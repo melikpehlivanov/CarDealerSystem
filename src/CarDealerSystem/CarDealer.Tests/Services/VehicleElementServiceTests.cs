@@ -6,6 +6,7 @@
     using CarDealer.Services.Implementations.Vehicle;
     using Data;
     using FluentAssertions;
+    using Models;
     using Models.BasicTypes;
     using Xunit;
 
@@ -20,6 +21,23 @@
             this.vehicleElementService = new VehicleElementService(this.dbContext);
         }
 
+        [Fact]
+        public async Task GetFeaturesByIdAsync_ShouldReturnCorrectModel()
+        {
+            // Arrange
+            this.SeedTypes<Feature>(10);
+            this.dbContext.Vehicles.Add(new Vehicle { Id = 1, IsDeleted = false, });
+            this.dbContext.VehicleFeatures.Add(new VehicleFeature { VehicleId = 1, FeatureId = 1 });
+            this.dbContext.SaveChanges();
+            // Act
+            var result = await this.vehicleElementService.GetFeaturesByIdAsync(1);
+
+            // Assert
+            result
+                .Should()
+                .AllBeAssignableTo<Feature>();
+        }
+        
         [Fact]
         public async Task GetFuelTypesAsync_ShouldReturnCorrectModel()
         {
