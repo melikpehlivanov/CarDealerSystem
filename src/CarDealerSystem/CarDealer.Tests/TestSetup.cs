@@ -4,18 +4,22 @@
 
     public class TestSetup
     {
-        private static bool mapperInitialized = false;
+        private static readonly object Sync = new object();
+        private static bool MapperInitialized = false;
 
         public static void InitializeMapper()
         {
-            if (!mapperInitialized)
+            lock (Sync)
             {
-                Mapper.Initialize(config =>
+                if (!MapperInitialized)
                 {
-                    config.AddProfile<TestProfile>();
-                });
+                    Mapper.Initialize(config =>
+                    {
+                        config.AddProfile<TestProfile>();
+                    });
 
-                mapperInitialized = true;
+                    MapperInitialized = true;
+                }
             }
         }
     }
