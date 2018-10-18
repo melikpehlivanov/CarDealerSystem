@@ -9,7 +9,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Models.Log;
     using Services.Interfaces;
-    using Services.Models.Log;
+    using Services.Models.Logs;
 
     [Authorize(Roles = WebConstants.SeniorAdministratorRole)]
     public class LogController : BaseController

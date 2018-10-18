@@ -2,7 +2,7 @@
 {
     using System.Linq;
     using System.Threading.Tasks;
-    using Models.Log;
+    using Models.Logs;
 
     public interface ILogService
     {

@@ -8,7 +8,7 @@
     using Microsoft.AspNetCore.Mvc.Filters;
     using Newtonsoft.Json;
     using Services.Interfaces;
-    using Services.Models.Log;
+    using Services.Models.Logs;
     using Utilities.Interfaces;
 
     public class LogAttribute : ActionFilterAttribute

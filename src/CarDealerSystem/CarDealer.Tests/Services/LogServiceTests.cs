@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using CarDealer.Services.Implementations.Logs;
-    using CarDealer.Services.Models.Log;
+    using CarDealer.Services.Models.Logs;
     using Data;
     using FluentAssertions;
     using Models;

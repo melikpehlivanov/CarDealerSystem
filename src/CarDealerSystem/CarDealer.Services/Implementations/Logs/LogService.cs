@@ -8,7 +8,7 @@
     using Data;
     using Interfaces;
     using Microsoft.EntityFrameworkCore;
-    using Models.Log;
+    using Models.Logs;
 
     public class LogService : BaseService, ILogService
     {
