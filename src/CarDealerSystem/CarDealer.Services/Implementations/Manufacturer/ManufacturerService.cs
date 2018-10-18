@@ -75,9 +75,8 @@
         public async Task<ManufacturerDetailsServiceModel> GetDetailedAsync(int id)
             => await this.db
                 .Manufacturers
-                .Where(m => m.Id == id)
                 .ProjectTo<ManufacturerDetailsServiceModel>(this.mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync(m => m.Id == id);
 
         public async Task<bool> UpdateAsync(int id, string name)
         {

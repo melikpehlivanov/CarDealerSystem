@@ -145,7 +145,7 @@
         => await this.db
                 .Models
                 .ProjectTo<ModelConciseServiceModel>(this.configuration)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .SingleOrDefaultAsync(m => m.Id == id);
 
         public async Task<bool> UpdateAsync(int id, string name)
         {

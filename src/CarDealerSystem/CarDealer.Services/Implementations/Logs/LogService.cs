@@ -51,8 +51,7 @@
         public Task<UserActivityLogDetailsServiceModel> GetAsync(int id)
             => this.db
                 .Logs
-                .Where(l => l.Id == id)
                 .ProjectTo<UserActivityLogDetailsServiceModel>(this.mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync(l => l.Id == id);
     }
 }
