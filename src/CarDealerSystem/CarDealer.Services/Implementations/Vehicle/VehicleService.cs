@@ -39,10 +39,8 @@
                     ? modelName
                     : ""
                     : "";
-
-            minEngineHorsePower = minEngineHorsePower != default(int) ? minEngineHorsePower : 0;
+            
             yearOfManufacture = yearOfManufacture != default(int) ? yearOfManufacture : 1990;
-            minPrice = minPrice != default(int) ? minPrice : 0;
             maxPrice = maxPrice != default(int) ? maxPrice : int.MaxValue;
 
             if (manufacturerId == 1)
