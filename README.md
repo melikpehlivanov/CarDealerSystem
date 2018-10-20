@@ -22,7 +22,7 @@
 </ul>
 
 <h3>Getting started:</h3>
-<p>In order to run the project you just need to replace the connection string which is located in appsettings.json and run the project. There is a seed method which will insert all manufacturers, models, fuel types, transmission types and etc. Database seeding should take about 1 hour and 25 minutes depending on your machine.(Not recommended) Please keep in mind that you can reduce the time to 2-3 minutes by removing or commenting "SeedOptionalData" method in ApplicationBuilderExtensions.cs but you wont have any users and ads(vehicles) listed.</p>
+<p>In order to run the project you just need to replace the connection string which is located in appsettings.json and run the project. There is a seed method which will insert all manufacturers, models, fuel types, transmission types and etc. Database seeding should take about 1 hour and 25 minutes depending on your machine. Please keep in mind that you can reduce the time to 2-3 minutes by removing or commenting "SeedOptionalData" method in ApplicationBuilderExtensions.cs but you wont have any users and ads(vehicles) listed and it's NOT recommended.</p>
 
 <pre>public static class ApplicationBuilderExtensions
     {
