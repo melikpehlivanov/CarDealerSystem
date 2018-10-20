@@ -7,7 +7,7 @@
     using Infrastructure.Collections;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Models.Log;
+    using Models.Logs;
     using Services.Interfaces;
     using Services.Models.Logs;
 

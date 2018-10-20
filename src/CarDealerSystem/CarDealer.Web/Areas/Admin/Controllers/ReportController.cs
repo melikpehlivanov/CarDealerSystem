@@ -11,7 +11,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Report;
-    using Report.Models;
     using Services.Interfaces;
     using Services.Models.Report;
 

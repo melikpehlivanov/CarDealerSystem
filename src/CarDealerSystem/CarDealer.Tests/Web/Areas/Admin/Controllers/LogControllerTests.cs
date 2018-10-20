@@ -8,7 +8,7 @@
     using CarDealer.Services.Models.Logs;
     using CarDealer.Web;
     using CarDealer.Web.Areas.Admin.Controllers;
-    using CarDealer.Web.Areas.Admin.Models.Log;
+    using CarDealer.Web.Areas.Admin.Models.Logs;
     using CarDealer.Web.Infrastructure.Collections;
     using Common.Notifications;
     using FluentAssertions;
