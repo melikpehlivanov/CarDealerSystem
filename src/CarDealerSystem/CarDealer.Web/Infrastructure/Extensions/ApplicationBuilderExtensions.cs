@@ -87,10 +87,10 @@ Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
                     for (int manufacturerIndex = 0; manufacturerIndex < manufacturers.Count; manufacturerIndex++)
                     {
                         //var model = manufacturers[manufacturerIndex].Models.Take(10).ToList();
-                        var model = manufacturers[manufacturerIndex].Models.Take(random.Next(1, manufacturers.Count)).ToList();
+                        var model = manufacturers[manufacturerIndex].Models.ToList();
                         foreach (var vehicleModel in model)
                         {
-                            for (int vehicleCount = 0; vehicleCount < random.Next(10); vehicleCount++)
+                            for (int vehicleCount = 0; vehicleCount < random.Next(1, 100); vehicleCount++)
                             {
                                 var phone = phoneNumbers[random.Next(1, phoneNumbers.Count)];
 
