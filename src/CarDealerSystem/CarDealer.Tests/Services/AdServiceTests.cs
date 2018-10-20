@@ -250,6 +250,45 @@
         //}
 
         [Fact]
+        public void GetAdOwnerEmail_WithValidId_ShouldReturnCorrectUser()
+        {
+            // Arrange
+            const int id = 1;
+            this.dbContext.Ads.Add(new Ad { Id = id, IsDeleted = false, User = new User { Id = SampleUserId, Email = "SampleEmail", } });
+            this.dbContext.SaveChanges();
+
+            // Act
+            var result = this.adService.GetAdOwnerEmail(id);
+
+            // Assert
+            result
+                .Should()
+                .BeAssignableTo<string>();
+        }
+
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        [InlineData(1000)]
+        [InlineData(10000)]
+        public void GetAdOwnerEmail_WithInvalidId_ShouldReturnNull(int id)
+        {
+            // Arrange
+            this.dbContext.Ads.Add(new Ad { Id = 1, IsDeleted = false, User = new User { Id = SampleUserId, Email = "SampleEmail", } });
+            this.dbContext.Ads.Add(new Ad { Id = 2, IsDeleted = false, User = new User { Id = SampleUserId + 2, Email = "SampleEmail2", } });
+            this.dbContext.SaveChanges();
+
+            // Act
+            var result = this.adService.GetAdOwnerEmail(id);
+
+            // Assert
+            result
+                .Should()
+                .BeNull();
+        }
+
+        [Fact]
         public void GetAllAdsByOwnerId_ShouldReturnQueryWithValidModel()
         {
             // Arrange
