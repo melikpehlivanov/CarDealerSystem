@@ -5,7 +5,6 @@
     using Infrastructure.Filters;
     using Microsoft.AspNetCore.Mvc;
     using Services.Interfaces;
-    using Services.Models;
     using Services.Models.Manufacturer;
 
     public class ManufacturerController : BaseController

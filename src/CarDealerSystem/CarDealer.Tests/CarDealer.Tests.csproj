@@ -24,8 +24,4 @@
     <ProjectReference Include="..\CarDealer.Web\CarDealer.Web.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Web\" />
-  </ItemGroup>
-
 </Project>
