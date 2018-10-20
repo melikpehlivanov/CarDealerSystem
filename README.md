@@ -42,3 +42,5 @@
             return app;
         }
     }</pre>
+    
+<p>P.S Please keep in mind this project is in beta version and bugs are highly possible.</p>
