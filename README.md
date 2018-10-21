@@ -43,4 +43,40 @@
         }
     }</pre>
     
-<p>P.S Please keep in mind this project is in beta version and bugs are highly possible.</p>
+<p>The next thing which you MUST do if you want to have facebook and google login functionality is to create your own user secrets. You can see more details here:
+<ul>
+  <li><a href="https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/facebook-logins?view=aspnetcore-2.1&tabs=aspnetcore2x">Facebook</a></li>
+  <li><a href="https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-2.1&tabs=aspnetcore2x">Google</a></li>
+</ul>
+And if you want to skip this part simply delete this block of code which is located in Startup.cs
+<pre>services
+                .AddAuthentication()
+                .AddFacebook(facebookOptions =>
+                {
+                    facebookOptions.AppId = this.Configuration.GetSection("ExternalAuthentications:Facebook:AppId").Value;
+                    facebookOptions.AppSecret = this.Configuration.GetSection("ExternalAuthentications:Facebook:AppSecret").Value;
+                })
+                .AddGoogle(googleOptions =>
+                {
+                    googleOptions.ClientId = this.Configuration.GetSection("ExternalAuthentications:Google:ClientId").Value;
+                    googleOptions.ClientSecret = this.Configuration.GetSection("ExternalAuthentications:Google:ClientSecret").Value;
+                });</pre>
+<p> 
+  The last and only thing which you need to do is put in your sendgrid Api key in your user secrets file - here's a <a href="https://sendgrid.com/docs/ui/account-and-settings/api-keys/#creating-an-api-key">guide</a>.
+  
+  Example of how your file should look like if you've implemented everything correctly.
+  <pre>{
+  "ExternalAuthentications": {
+    "Facebook": {
+      "AppId": "YourAppId",
+      "AppSecret": "YourAppSecret"
+    },
+    "Google": {
+      "ClientId": "YourClientId",
+      "ClientSecret": "YourClientSecret"
+    }
+  },
+  "EmailSetting": {
+    "SendGridApiKey": "YourSendgridApiKey"
+  }
+}</pre>
