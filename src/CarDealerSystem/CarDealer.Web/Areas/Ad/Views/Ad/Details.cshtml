@@ -246,7 +246,7 @@
                 payment.innerHTML = monthly.toFixed(2);
                 total.innerHTML = (monthly * payments).toFixed(2);
                 totalinterest.innerHTML = ((monthly * payments) - principal).toFixed(2);
-                save(amount.value, interestRate.value, period.value);
+                save(amount.value, interestRate.value, period.value, parsedDawnPayment);
                 try {
                     getLenders(amount.value, interestRate.value, period.value);
                 }
@@ -266,14 +266,14 @@
                 localStorage.loan_dawn_payment = dawnPayment;
             }
         }
-        window.onload = function () {
-            if (window.localStorage && localStorage.loan_amount) {
-                document.getElementById("vehicle-price").value = localStorage.loan_amount;
-                document.getElementById("interest-rate").value = localStorage.loan.apr;
-                document.getElementById("period").value = localStorage.loan;
-                document.getElementById("dawn-payment").value = localStorage.loan_dawn_payment;
-            }
-        };
+        //window.onload = function () {
+        //    if (window.localStorage && localStorage.loan_amount) {
+        //        document.getElementById("vehicle-price").value = localStorage.loan_amount;
+        //        document.getElementById("interest-rate").value = localStorage.loan.apr;
+        //        document.getElementById("period").value = localStorage.loan;
+        //        document.getElementById("dawn-payment").value = localStorage.loan_dawn_payment;
+        //    }
+        //};
 
         function getLenders(amount, apr, years) {
             if (!window.XMLHttpRequest)
