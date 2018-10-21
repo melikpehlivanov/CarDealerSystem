@@ -45,8 +45,8 @@
     
 <p>The next thing which you MUST do if you want to have facebook and google login functionality is to create your own user secrets. You can see more details here:
 <ul>
-  <li><a href="https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/facebook-logins?view=aspnetcore-2.1&tabs=aspnetcore2x">Facebook</a></li>
-  <li><a href="https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-2.1&tabs=aspnetcore2x">Google</a></li>
+  <li><a href="https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/facebook-logins?view=aspnetcore-2.1&tabs=aspnetcore2x" target="_blank">Facebook</a></li>
+  <li><a href="https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-2.1&tabs=aspnetcore2x" target="_blank">Google</a></li>
 </ul>
 And if you want to skip this part simply delete this block of code which is located in Startup.cs
 <pre>services
