@@ -5,12 +5,14 @@
     using Infrastructure.Collections.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Models;
+    using Services.Interfaces;
 
     public class HomeController : Controller
     {
         private readonly ICache cache;
 
         public HomeController(
+            IManufacturerService manufacturers,
             ICache cache)
         {
             this.cache = cache;
