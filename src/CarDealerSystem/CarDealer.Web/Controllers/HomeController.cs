@@ -1,29 +1,30 @@
 ﻿namespace CarDealer.Web.Controllers
 {
     using System.Diagnostics;
-    using System.Linq;
     using System.Threading.Tasks;
+    using Infrastructure.Collections.Interfaces;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Rendering;
     using Models;
     using Services.Interfaces;
 
     public class HomeController : Controller
     {
-        private readonly IManufacturerService manufacturers;
+        private readonly ICache cache;
 
-        public HomeController(IManufacturerService manufacturers)
+        public HomeController(
+            IManufacturerService manufacturers,
+            ICache cache)
         {
-            this.manufacturers = manufacturers;
+            this.cache = cache;
         }
 
         public async Task<IActionResult> Index()
         {
-            var allManufacturers = await this.manufacturers.AllAsync();
+            var allManufacturers = await this.cache.GetAllManufacturersAsync();
 
             var model = new IndexViewModel
             {
-                AllManufacturers = allManufacturers.Select(m => new SelectListItem(m.Name, m.Id.ToString())),
+                AllManufacturers = allManufacturers,
             };
 
             return View(model);
@@ -34,7 +35,7 @@
         public IActionResult Privacy() => View();
 
         public IActionResult Contact() => View();
-        
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
