@@ -11,7 +11,7 @@
     using CarDealer.Models.BasicTypes;
     using Common.Notifications;
     using Infrastructure.Collections;
-    using Infrastructure.Extensions;
+    using Infrastructure.Collections.Interfaces;
     using Infrastructure.Filters;
     using Infrastructure.Utilities.Interfaces;
     using Microsoft.AspNetCore.Authorization;
@@ -20,9 +20,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using Microsoft.Extensions.Caching.Distributed;
     using Models;
-    using Newtonsoft.Json;
     using Services.Interfaces;
     using Services.Models.Ad;
     using Services.Models.User;
@@ -30,14 +28,10 @@
 
     public class AdController : BaseController
     {
-        private const string ManufacturersCacheKey = "_ManufacturersStoredInCache";
-        private const string TransmissionTypesCacheKey = "_TransmissionTypesStoredInCache";
-        private const string FuelTypesCacheKey = "_FuelTypesStoredInCache";
-
         private readonly string webRootPath;
         private readonly UserManager<User> userManager;
         private readonly IMapper mapper;
-        private readonly IDistributedCache cache;
+        private readonly ICache cache;
         private readonly IManufacturerService manufacturers;
         private readonly IVehicleElementService vehicleElements;
         private readonly IDateTimeProvider dateTimeProvider;
@@ -46,7 +40,7 @@
 
         public AdController(
             IHostingEnvironment hostingEnvironment,
-            IDistributedCache cache,
+            ICache cache,
             IDateTimeProvider dateTimeProvider,
             IManufacturerService manufacturers,
             IVehicleElementService vehicleElements,
@@ -319,9 +313,9 @@
         {
             var model = new AdCreateViewModel
             {
-                AllManufacturers = await GetAllManufacturersAsync(),
-                AllFuelTypes = await GetAllFuelTypesAsync(),
-                AllTransmissionTypes = await GetAllTransmissionTypesAsync(),
+                AllManufacturers = await this.cache.GetAllManufacturersAsync(),
+                AllFuelTypes = await this.cache.GetAllFuelTypesAsync(),
+                AllTransmissionTypes = await this.cache.GetAllTransmissionTypesAsync(),
                 AvailableYears = GetAvailableYears(),
                 AllFeatures = await this.vehicleElements.GetFeaturesAsync()
             };
@@ -340,77 +334,14 @@
                 IsChecked = f.IsChecked = checkedFeatures.Any(c => c.Id == f.Id)
             }));
 
-            model.Vehicle.AllManufacturers = await GetAllManufacturersAsync();
-            model.Vehicle.AllFuelTypes = await GetAllFuelTypesAsync();
-            model.Vehicle.AllTransmissionTypes = await GetAllTransmissionTypesAsync();
+            model.Vehicle.AllManufacturers = await this.cache.GetAllManufacturersAsync();
+            model.Vehicle.AllFuelTypes = await this.cache.GetAllFuelTypesAsync();
+            model.Vehicle.AllTransmissionTypes = await this.cache.GetAllTransmissionTypesAsync();
             model.Vehicle.AvailableYears = GetAvailableYears();
             model.Vehicle.AllFeatures = allFeatures;
             return model;
         }
         
-        private async Task<IEnumerable<SelectListItem>> GetAllManufacturersAsync()
-        {
-            IEnumerable<SelectListItem> list;
-
-            var listFromCache = await this.cache.GetStringAsync(ManufacturersCacheKey);
-            if (listFromCache == null)
-            {
-                var allManufacturers = await this.manufacturers.AllAsync();
-                list = allManufacturers.Select(m => new SelectListItem(m.Name.ToString(), m.Id.ToString()));
-                var expiration = TimeSpan.FromDays(WebConstants.StaticElementsCacheExpirationInDays);
-
-                await this.cache.SetSerializableObject(ManufacturersCacheKey, list, expiration);
-            }
-            else
-            {
-                list = JsonConvert.DeserializeObject<IEnumerable<SelectListItem>>(listFromCache);
-            }
-
-            return list;
-        }
-
-        private async Task<IEnumerable<SelectListItem>> GetAllTransmissionTypesAsync()
-        {
-            IEnumerable<SelectListItem> list;
-
-            var listFromCache = await this.cache.GetStringAsync(TransmissionTypesCacheKey);
-            if (listFromCache == null)
-            {
-                var transmissionTypes = await this.vehicleElements.GetTransmissionTypesAsync();
-                list = transmissionTypes.Select(x => new SelectListItem(x.Name.ToString(), x.Id.ToString()));
-                var expiration = TimeSpan.FromDays(WebConstants.StaticElementsCacheExpirationInDays);
-
-                await this.cache.SetSerializableObject(TransmissionTypesCacheKey, list, expiration);
-            }
-            else
-            {
-                list = JsonConvert.DeserializeObject<IEnumerable<SelectListItem>>(listFromCache);
-            }
-
-            return list;
-        }
-
-        private async Task<IEnumerable<SelectListItem>> GetAllFuelTypesAsync()
-        {
-            IEnumerable<SelectListItem> list;
-
-            var listFromCache = await this.cache.GetStringAsync(FuelTypesCacheKey);
-            if (listFromCache == null)
-            {
-                var fuelTypes = await this.vehicleElements.GetFuelTypesAsync();
-                list = fuelTypes.Select(f => new SelectListItem(f.Name.ToString(), f.Id.ToString()));
-                var expiration = TimeSpan.FromDays(WebConstants.StaticElementsCacheExpirationInDays);
-
-                await this.cache.SetSerializableObject(FuelTypesCacheKey, list, expiration);
-            }
-            else
-            {
-                list = JsonConvert.DeserializeObject<IEnumerable<SelectListItem>>(listFromCache);
-            }
-
-            return list;
-        }
-
         private IEnumerable<SelectListItem> GetAvailableYears()
         {
             return Enumerable

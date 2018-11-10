@@ -9,6 +9,7 @@
     using CarDealer.Services.Models.Vehicle;
     using CarDealer.Web;
     using CarDealer.Web.Controllers;
+    using CarDealer.Web.Infrastructure.Collections.Interfaces;
     using CarDealer.Web.Models;
     using FluentAssertions;
     using Microsoft.AspNetCore.Mvc;
@@ -19,18 +20,20 @@
     public class SearchControllerTests
     {
         private readonly SearchController searchController;
-
+        
+        private readonly Mock<ICache> cache;
         private readonly Mock<IVehicleService> vehicles;
         private readonly Mock<IManufacturerService> manufacturers;
         private readonly Mock<IVehicleElementService> vehicleElements;
 
         public SearchControllerTests()
         {
+            this.cache = new Mock<ICache>();
             this.vehicles = new Mock<IVehicleService>();
             this.manufacturers = new Mock<IManufacturerService>();
             this.vehicleElements = new Mock<IVehicleElementService>();
 
-            this.searchController = new SearchController(this.vehicles.Object, this.manufacturers.Object, this.vehicleElements.Object);
+            this.searchController = new SearchController(this.vehicles.Object, this.cache.Object);
         }
 
         [Fact]

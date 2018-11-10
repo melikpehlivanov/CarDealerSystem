@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Infrastructure.Collections;
+    using Infrastructure.Collections.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Models;
     using Services.Interfaces;
@@ -11,18 +12,16 @@
 
     public class SearchController : Controller
     {
+
         private readonly IVehicleService vehicles;
-        private readonly IManufacturerService manufacturers;
-        private readonly IVehicleElementService vehicleElements;
+        private readonly ICache cache;
 
         public SearchController(
             IVehicleService vehicles,
-            IManufacturerService manufacturers,
-            IVehicleElementService vehicleElements)
+            ICache cache)
         {
             this.vehicles = vehicles;
-            this.manufacturers = manufacturers;
-            this.vehicleElements = vehicleElements;
+            this.cache = cache;
         }
 
         public IActionResult Index()
@@ -81,10 +80,10 @@
 
             var results = new PaginatedList<VehicleSearchServiceModel>(vehiclesToShow, pageIndex, totalPages);
 
-            var allManufacturers = await this.manufacturers.AllAsync();
+            var allManufacturers = await this.cache.GetAllManufacturersAsync();
             var availableYears = Enumerable.Range(1990, DateTime.UtcNow.Year - 1990 + 1);
-            var allFuelTypes = await this.vehicleElements.GetFuelTypesAsync();
-            var allGearingTypes = await this.vehicleElements.GetTransmissionTypesAsync();
+            var allFuelTypes = await this.cache.GetAllFuelTypesAsync();
+            var allGearingTypes = await this.cache.GetAllTransmissionTypesAsync();
             var totalCount = vehicles.Count();
 
             var model = new SearchViewModel(
@@ -101,7 +100,7 @@
                 maximumKilometers,
                 results,
                 totalCount);
-            
+
             return model;
         }
     }

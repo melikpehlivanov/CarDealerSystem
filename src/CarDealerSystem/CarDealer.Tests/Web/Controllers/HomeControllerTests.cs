@@ -3,33 +3,39 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using CarDealer.Services.Interfaces;
-    using CarDealer.Services.Models.Manufacturer;
     using CarDealer.Web.Controllers;
+    using CarDealer.Web.Infrastructure.Collections.Interfaces;
     using CarDealer.Web.Models;
     using FluentAssertions;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Moq;
     using Xunit;
 
     public class HomeControllerTests
     {
         private readonly HomeController controller;
-        private readonly Mock<IManufacturerService> manufacturerService;
+        private readonly Mock<ICache> cache;
 
         public HomeControllerTests()
         {
-            this.manufacturerService = new Mock<IManufacturerService>();
-            this.controller = new HomeController(this.manufacturerService.Object);
+            this.cache = new Mock<ICache>();
+            this.controller = new HomeController(this.cache.Object);
         }
 
         [Fact]
         public async Task Index_ShouldReturnView()
         {
             // Arrange
-            this.manufacturerService
-                .Setup(s => s.AllAsync())
-                .ReturnsAsync(new List<ManufacturerConciseListModel>());
+            this.cache
+                .Setup(s => s.GetAllManufacturersAsync())
+                .ReturnsAsync(new List<SelectListItem>
+                {
+                    new SelectListItem(),
+                    new SelectListItem(),
+                    new SelectListItem(),
+                    new SelectListItem(),
+                });
 
             // Act
             var result = await this.controller.Index();
@@ -44,14 +50,14 @@
         public async Task Index_ShouldReturnViewWithCorrectModel()
         {
             // Arrange
-            this.manufacturerService
-                .Setup(s => s.AllAsync())
-                .ReturnsAsync(new List<ManufacturerConciseListModel>
+            this.cache
+                .Setup(s => s.GetAllManufacturersAsync())
+                .ReturnsAsync(new List<SelectListItem>
                 {
-                    new ManufacturerConciseListModel(),
-                    new ManufacturerConciseListModel(),
-                    new ManufacturerConciseListModel(),
-                    new ManufacturerConciseListModel(),
+                    new SelectListItem(),
+                    new SelectListItem(),
+                    new SelectListItem(),
+                    new SelectListItem(),
                 });
 
             // Act

@@ -3,10 +3,8 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
-    using CarDealer.Models.BasicTypes;
     using Infrastructure.Collections;
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using Services.Models.Manufacturer;
     using Services.Models.Vehicle;
 
     public class SearchViewModel
@@ -19,11 +17,11 @@
             string modelName,
             decimal minPrice,
             decimal maxPrice,
-            IEnumerable<ManufacturerConciseListModel> allManufacturers,
+            IEnumerable<SelectListItem> allManufacturers,
             IEnumerable<int> availableYears,
             int yearMin,
-            IEnumerable<FuelType> allFuelTypes,
-            IEnumerable<TransmissionType> allTransmissionTypes,
+            IEnumerable<SelectListItem> allFuelTypes,
+            IEnumerable<SelectListItem> allTransmissionTypes,
             int powerMin,
             int maximumKilometers,
             PaginatedList<VehicleSearchServiceModel> results,
@@ -33,10 +31,10 @@
             this.ModelName = modelName;
             this.MinPrice = minPrice;
             this.MaxPrice = maxPrice;
-            this.AllManufacturers = allManufacturers.Select(m => new SelectListItem(m.Name, m.Id.ToString()));
+            this.AllManufacturers = allManufacturers;
             this.AvailableYears = availableYears.Select(y => new SelectListItem($"after {y.ToString()}", y.ToString()));
-            this.AllFuelTypes = allFuelTypes.Select(ft => new SelectListItem(ft.Name, ft.Id.ToString()));
-            this.AllTransmissionTypes = allTransmissionTypes.Select(tst => new SelectListItem(tst.Name, tst.Id.ToString()));
+            this.AllFuelTypes = allFuelTypes;
+            this.AllTransmissionTypes = allTransmissionTypes;
             this.MaximumKilometers = maximumKilometers != default(int) ? maximumKilometers : DefaultMaximumKilometers;
             this.EngineHorsePowerMin = powerMin != default(int) ? powerMin : EngineHorsePowerMinValue;
             this.YearOfManufactureMin = yearMin != default(int) ? yearMin : availableYears.Min();
