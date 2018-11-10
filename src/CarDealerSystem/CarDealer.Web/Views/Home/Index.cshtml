@@ -10,7 +10,7 @@
                     Find Your<br> Perfect Car
                 </div>
                 <div class="tt-col-select">
-                    <select asp-for="ManufacturerId" asp-items="@Model.AllManufacturers" class="tt-row-select" data-select="1.">
+                    <select asp-for="ManufacturerId" asp-items="@Model.AllManufacturers" class="tt-row-select" >
                         <option disabled selected>--- SELECT ---</option>
                     </select>
                     <div class="tt-item" style="margin-left: 10px;">
@@ -18,11 +18,11 @@
                             <option disabled selected>--- All ---</option>
                         </select>
                     </div>
-                   
+
                 </div>
                 <div class="tt-col-btn">
                     <button type="submit" class="btn tt-icon-left"><i class="icon-musica-searcher"></i><span class="tt-mobile-hide"></span>CARS</button>
-                    ...or go to &nbsp <a asp-controller="search" asp-action="index" class="text-primary">Advanced search options</a>
+                    &nbsp; or go to &nbsp; <a asp-controller="search" asp-action="index" class="text-primary">Advanced search options</a>
                 </div>
             </div>
         </form>
@@ -239,7 +239,7 @@
                 <div class="tt-item">
                     <div class="box-value">
                         <i class="icon-vehicles"></i>
-                        <span><span class="tt-counter" data-from="0" data-to="4567">0</span></span>
+                        <span><span class="tt-counter" data-from="0" data-to="123123">0</span></span>
                     </div>
                     <h6 class="tt-title">Vehicles In Stock</h6>
                 </div>

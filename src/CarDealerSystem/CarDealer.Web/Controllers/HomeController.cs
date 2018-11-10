@@ -31,6 +31,8 @@
 
         public IActionResult About() => View();
 
+        public IActionResult Privacy() => View();
+
         public IActionResult Contact() => View();
         
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
