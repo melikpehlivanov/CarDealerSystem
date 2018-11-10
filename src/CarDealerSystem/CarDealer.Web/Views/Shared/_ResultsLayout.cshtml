@@ -9,6 +9,10 @@
         <link rel="stylesheet" href="~/css/style.css" />
         <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700" rel="stylesheet">
+
+
+        <!-- cookiealert.css -->
+        <link rel="stylesheet" href="/css/cookiealert.css">
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -134,7 +138,7 @@
                     </div>
                     <!--btn toggle modal-->
                     <div class="col-btn-toggle-modal col-auto">
-                        <a class="btn btn-toggle-modal" asp-area="Ad" asp-controller="Ad" asp-action="Create" >
+                        <a class="btn btn-toggle-modal" asp-area="Ad" asp-controller="Ad" asp-action="Create">
                             <i class="icon-addcar"></i><span class="tt-text">ADD YOUR ITEM</span>
                         </a>
                     </div>
@@ -241,40 +245,54 @@
             </div>
         </div>
     </footer>
-    <a href="#" id="ttBackToTop" class="tt-back-to-top">BACK TO TOP</a>
-    
-        <environment include="Development">
-            <script src="/external/jquery/jquery.min.js"></script>
-            <script src="/external/bootstrap/js/bootstrap.min.js"></script>
-            <script src="/external/slick/slick.min.js"></script>
-            <script src="/external/panelmenu/panelmenu.js"></script>
-            <script src="/external/nice-select/jquery.nice-select.min.js"></script>
-            <script src="/external/noUiSlider/nouislider.min.js"></script>
-            <script src="/external/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-            <script src="/external/magnific-popup/jquery.magnific-popup.min.js"></script>
-            <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-            <script src="/js/main.js"></script>
-            <!-- form validation and sending to mail -->
-            <script src="/external/form/jquery.form.js"></script>
-            <script src="/external/form/jquery.validate.min.js"></script>
-            <script src="/external/form/jquery.form-init.js"></script>
-        </environment>
-        <environment exclude="Development">
-            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                    asp-fallback-test="window.jQuery"
-                    crossorigin="anonymous"
-                    integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-            </script>
-            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                    crossorigin="anonymous"
-                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-            </script>
-            <script src="~/js/site.min.js" asp-append-version="true"></script>
-        </environment>
 
-        @RenderSection("Scripts", required: false)
+    <div class="alert alert-dismissible text-center cookiealert" role="alert">
+        <div class="cookiealert-container">
+            &#x1F36A; We use cookies to ensure you get the best experience on our website. <a asp-controller="Home" asp-action="Privacy">Learn more</a>
+
+            <button type="button" class="btn btn-primary btn-sm acceptcookies" aria-label="Close">
+                I agree
+            </button>
+        </div>
+    </div>
+    <a href="#" id="ttBackToTop" class="tt-back-to-top">BACK TO TOP</a>
+
+    <environment include="Development">
+        <script src="/external/jquery/jquery.min.js"></script>
+        <script src="/external/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/external/slick/slick.min.js"></script>
+        <script src="/external/panelmenu/panelmenu.js"></script>
+        <script src="/external/nice-select/jquery.nice-select.min.js"></script>
+        <script src="/external/noUiSlider/nouislider.min.js"></script>
+        <script src="/external/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+        <script src="/external/magnific-popup/jquery.magnific-popup.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+        <script src="/js/main.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+        <script src="/js/cookiealert-dependencies.js"></script>
+
+        <!-- form validation and sending to mail -->
+        <script src="/external/form/jquery.form.js"></script>
+        <script src="/external/form/jquery.validate.min.js"></script>
+        <script src="/external/form/jquery.form-init.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
