@@ -18,8 +18,6 @@
 
         public SearchController(
             IVehicleService vehicles,
-            IManufacturerService manufacturers,
-            IVehicleElementService vehicleElements,
             ICache cache)
         {
             this.vehicles = vehicles;
