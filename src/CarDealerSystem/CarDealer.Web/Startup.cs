@@ -117,6 +117,10 @@
 
             app.UseMvc(routes =>
             {
+                routes.MapAreaRoute(name: "customAdAreaRoute",
+                    areaName: "ad",
+                    template: "{controller=Ad}/{action=Index}/{id?}");
+
                 routes.MapRoute(
                     name: "areas",
                     template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
