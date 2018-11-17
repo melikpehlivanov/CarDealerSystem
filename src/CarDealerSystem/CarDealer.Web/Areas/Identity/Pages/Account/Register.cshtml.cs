@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace CarDealer.Web.Areas.Identity.Pages.Account
 {
     using CarDealer.Models;
+    using Controllers;
 
     [AllowAnonymous]
     public class RegisterModel : PageModel
@@ -56,13 +57,25 @@ namespace CarDealer.Web.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-        public void OnGet(string returnUrl = null)
+        public IActionResult OnGet(string returnUrl = null)
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction(nameof(HomeController.Index), new { area = "" });
+            }
+
             ReturnUrl = returnUrl;
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction(nameof(HomeController.Index), new { area = "" });
+            }
+
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {

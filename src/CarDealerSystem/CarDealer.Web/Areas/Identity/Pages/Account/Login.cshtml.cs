@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace CarDealer.Web.Areas.Identity.Pages.Account
 {
     using CarDealer.Models;
+    using Controllers;
 
     [AllowAnonymous]
     public class LoginModel : PageModel
@@ -49,8 +50,13 @@ namespace CarDealer.Web.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction(nameof(HomeController.Index), new { area = "" });
+            }
+
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
@@ -64,10 +70,17 @@ namespace CarDealer.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction(nameof(HomeController.Index), new { area = "" });
+            }
+
             returnUrl = returnUrl ?? Url.Content("~/");
 
             if (ModelState.IsValid)
