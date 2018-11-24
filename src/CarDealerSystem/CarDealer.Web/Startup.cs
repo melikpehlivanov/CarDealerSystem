@@ -115,6 +115,8 @@
 
             app.UseAuthentication();
 
+            app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
+
             app.UseMvc(routes =>
             {
                 routes.MapAreaRoute(name: "customAdAreaRoute",
