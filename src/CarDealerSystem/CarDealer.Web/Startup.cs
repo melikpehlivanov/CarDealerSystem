@@ -79,8 +79,9 @@
             services
                 .AddApplicationServices()
                 .AddDomainServices()
-                .AddAutoMapper();
-
+                .AddAutoMapper()
+                .AddResponseCompression();
+            
             services
                 .AddMvc(options =>
                 {
@@ -110,6 +111,7 @@
             }
 
             app.UseHttpsRedirection();
+            app.UseResponseCompression();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
