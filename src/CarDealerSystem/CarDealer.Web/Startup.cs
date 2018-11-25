@@ -80,7 +80,7 @@
                 .AddApplicationServices()
                 .AddDomainServices()
                 .AddAutoMapper()
-                .AddResponseCompression();
+                .AddResponseCompression(options => options.EnableForHttps = true);
             
             services
                 .AddMvc(options =>
