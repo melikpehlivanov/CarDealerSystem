@@ -12,14 +12,15 @@
                 <div class="card-body">
                     <h5 class="card-title text-center">@ViewData["Title"]</h5>
                     <form class="form-signin" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                        <div class="carousel-control"></div>
                         <div asp-validation-summary="All" class="text-danger"></div>
+
+                        <div class="carousel-control"></div>
                         <div class="form-label-group">
                             <input asp-for="Input.Email" style="font-size: 13px;" class="form-control">
                             <label asp-for="Input.Email"></label>
                         </div>
                         <div class="form-label-group">
-                            <input asp-for="Input.Password" class="form-control"/>
+                            <input asp-for="Input.Password" class="form-control" />
                             <label asp-for="Input.Password"></label>
                         </div>
                         <div class="form-label-group">

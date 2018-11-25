@@ -13,6 +13,7 @@
                 <div class="card-body">
                     <h5 class="card-title text-center">Sign In</h5>
                     <form class="form-signin" method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div>
                         <div class="form-label-group">
                             <input asp-for="Input.Email" style="font-size: 13px;" class="form-control" placeholder="Email address" required>
                             <label asp-for="Input.Email">Email address</label>
