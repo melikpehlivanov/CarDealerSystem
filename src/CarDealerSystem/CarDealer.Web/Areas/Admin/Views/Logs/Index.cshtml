@@ -1,0 +1,89 @@
+﻿@model CarDealer.Web.Areas.Admin.Models.Logs.UserActivityLogListViewModel
+
+<h2 class="text-center">All logs</h2>
+<div class="container" style="margin-bottom: 15px">
+    <div class="col-md-4 form-inline">
+        <form method="get" class="form-inline">
+            <div class="col-md-4"></div>
+            <div class="tt-wrapper-aside">
+                <div class="tt-aside-box">
+                    <h3 class="tt-aside-title">Search</h3>
+                    <div class="tt-content">
+                        <div class="tt-form-search tt-form-default">
+                            <div class="tt-item">
+                                <input asp-for="SearchTerm" placeholder="SEARCH BY EMAIL">
+                            </div>
+                            <div class="tt-item">
+                                <button type="submit" class="btn"><i class="icon-musica-searcher"></i>SEARCH</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<hr />
+<div class="container">
+<table class="table table-dark table-striped table-hover>">
+    <thead>
+    <tr>
+        <th>Email</th>
+        <th>Date</th>
+        <th>Method</th>
+        <th>Area</th>
+        <th>Controller</th>
+        <th>Action</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var log in Model.Logs)
+    {
+        <tr>
+            <td>@log.UserEmail</td>
+            <td>@log.DateTime</td>
+            <td>@log.HttpMethod</td>
+            <td>@log.AreaName</td>
+            <td>@log.ControllerName</td>
+            <td>@log.ActionName</td>
+            <td>
+                <a class="btn btn-default" asp-action="Details" asp-route-id="@log.Id">Details</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+</div>
+
+@{
+    var prevDisabled = !Model.Logs.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Logs.HasNextPage ? "disabled" : "";
+    var firstDisabled = Model.Logs.PageIndex == 1 ? "disabled" : "";
+    var lastDisabled = Model.Logs.TotalPages <= Model.Logs.PageIndex ? "disabled" : "";
+}
+<div class="text-center" style="margin-bottom: 15px;">
+    <a asp-route-page="1"
+       asp-route-searchTerm="@Model.SearchTerm"
+       class="btn btn-default @firstDisabled">
+        First page
+    </a>
+    <a asp-route-page="@(Model.Logs.PageIndex - 1)"
+       asp-route-searchTerm="@Model.SearchTerm"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <span class="btn btn-group">
+        @Model.Logs.PageIndex
+    </span>
+    <a asp-route-page="@(Model.Logs.PageIndex + 1)"
+       asp-route-searchTerm="@Model.SearchTerm"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
+    <a asp-route-page="@(Model.Logs.TotalPages)"
+       asp-route-searchTerm="@Model.SearchTerm"
+       class="btn btn-default @lastDisabled">
+        Last page
+    </a>
+</div>
