@@ -21,14 +21,14 @@
     public class LogControllerTests : BaseTest
     {
         private readonly DateTime SampleDate = new DateTime(2010, 10, 10);
-        private readonly LogController logController;
+        private readonly LogsController logController;
         private readonly Mock<ILogService> logs;
 
         public LogControllerTests()
         {
             this.logs = new Mock<ILogService>();
 
-            this.logController = new LogController(this.logs.Object);
+            this.logController = new LogsController(this.logs.Object);
         }
 
         [Fact]

@@ -12,11 +12,11 @@
     using Services.Models.Logs;
 
     [Authorize(Roles = WebConstants.SeniorAdministratorRole)]
-    public class LogController : BaseController
+    public class LogsController : BaseController
     {
         private readonly ILogService logService;
 
-        public LogController(ILogService logService)
+        public LogsController(ILogService logService)
         {
             this.logService = logService;
         }
