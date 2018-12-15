@@ -50,10 +50,10 @@
                 <select asp-for="Vehicle.YearOfProduction" required asp-items="@Model.Vehicle.AvailableYears" class="tt-row-select tt-form-default tt-skin-01">
                     <option disabled selected>Select a year</option>
                 </select>
-                <select asp-for="Vehicle.ManufacturerId" required asp-items="@Model.Vehicle.AllManufacturers" class="tt-row-select tt-form-default">
+                <select disabled asp-for="Vehicle.ManufacturerId" required asp-items="@Model.Vehicle.AllManufacturers" class="tt-row-select tt-form-default">
                     <option disabled selected>Select a Make</option>
                 </select>
-                <select asp-for="Vehicle.ModelName" asp-items="@(new SelectList(string.Empty))" class="tt-row-select tt-form-default tt-skin-01">
+                <select disabled asp-for="Vehicle.ModelName" asp-items="@(new SelectList(string.Empty))" class="tt-row-select tt-form-default tt-skin-01">
                     <option disabled selected>Select a Model</option>
                 </select>
                 <select asp-for="Vehicle.FuelTypeId" reqired asp-items="@Model.Vehicle.AllFuelTypes" class="tt-select tt-skin-01">
@@ -124,8 +124,6 @@
         $(document).ready(function() {
 
             GetModels();
-
-            $('#Vehicle_ManufacturerId').on('change', GetModels);
 
             function GetModels() {
                 var url = '/Vehicle/Vehicle/GetModelsByManufacturerId';

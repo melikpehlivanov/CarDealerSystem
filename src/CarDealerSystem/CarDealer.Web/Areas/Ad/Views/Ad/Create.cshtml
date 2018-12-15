@@ -83,44 +83,5 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var url = '/Vehicle/Vehicle/GetModelsByManufacturerId';
-            var ddlSourse = "#ManufacturerId";
-            $.getJSON(url, { manufacturerId: $(ddlSourse).val() }, function (data) {
-                var items = '';
-                $('#ModelName').empty();
-                $.each(data, function (i, vehModel) {
-                    var vehicleCurrentModel = '@Model.ModelName';
-                    var selected = vehicleCurrentModel === vehModel.text ? " selected" : "";
-                    items += "<option" + selected + ">" + vehModel.text + "</option>";
-                });
-                $('#ModelName').html(items);
-            });
-        });
-    </script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#ManufacturerId').on('change', function () {
-                var url = '/Vehicle/Vehicle/GetModelsByManufacturerId';
-                var ddlSourse = "#ManufacturerId";
-                $.getJSON(url, { manufacturerId: $(ddlSourse).val() }, function (data) {
-                    var items = '<li data-value="--- All ---" class="option disabled">--- All ---</li>';
-                    var items2 = "<option disabled>--- All ---</option>";
-                    $('#ModelName').next('div').find('ul').empty();
-                    for (var i = 0; i < data.length; i++) {
-                        var item = `<li data-value="${data[i].text}" class="option focus">${data[i].text}</li\>`;
-                        items += item;
-                    }
-                    $.each(data, function (i, vehModel) {
-                        items2 += "<option>" + vehModel.text + "</option>";
-                    });
-                    $('#ModelName').next('div').find('ul').html(items);
-                    $('#ModelName').html(items2);
-                });
-            });
-        });
-    </script>
+    <script src="~/js/manufacturer-models-loader.js"></script>
 }
