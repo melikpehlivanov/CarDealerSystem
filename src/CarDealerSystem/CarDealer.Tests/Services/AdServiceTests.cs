@@ -289,7 +289,7 @@
         }
 
         [Fact]
-        public void GetAllAdsByOwnerId_ShouldReturnQueryWithValidModel()
+        public async Task GetAllAdsByOwnerId_ShouldReturnQueryWithValidModel()
         {
             // Arrange
             const string sampleUserEmail = "SampleUserEmail";
@@ -331,12 +331,12 @@
             this.dbContext.SaveChanges();
 
             // Act
-            var result = this.adService.GetAllAdsByOwnerId(SampleUserId);
+            var result = await this.adService.GetAllAdsByOwnerId(SampleUserId);
 
             // Assert
             result
                 .Should()
-                .BeAssignableTo<IQueryable<UserAdsListingServiceModel>>();
+                .BeAssignableTo<IEnumerable<UserAdsListingServiceModel>>();
         }
 
 
