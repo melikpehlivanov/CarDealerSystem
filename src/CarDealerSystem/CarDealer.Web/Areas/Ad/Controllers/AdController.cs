@@ -60,10 +60,10 @@
             this.pictures = pictures;
         }
         
-        public IActionResult Index(string id, string searchTerm, int page = 1)
+        public async Task<IActionResult> Index(string id, string searchTerm, int page = 1)
         {
             page = Math.Max(1, page);
-            var allAds = this.ads.GetAllAdsByOwnerId(id);
+            var allAds = await this.ads.GetAllAdsByOwnerId(id);
             if (!allAds.Any())
             {
                 return View("NoAdsView");

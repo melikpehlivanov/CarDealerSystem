@@ -1,5 +1,6 @@
 ﻿namespace CarDealer.Services.Interfaces
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Models.Ad;
@@ -15,7 +16,7 @@
 
         string GetAdOwnerEmail(int id);
 
-        IQueryable<UserAdsListingServiceModel> GetAllAdsByOwnerId(string userId);
+        Task<IEnumerable<UserAdsListingServiceModel>> GetAllAdsByOwnerId(string userId);
 
         Task<AdEditServiceModel> GetForUpdateAsync(int id);
 

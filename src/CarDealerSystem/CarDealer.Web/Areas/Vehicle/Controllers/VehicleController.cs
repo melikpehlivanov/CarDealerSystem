@@ -1,6 +1,8 @@
 ﻿namespace CarDealer.Web.Areas.Vehicle.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
+    using System.Web;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Services.Interfaces;
@@ -20,7 +22,7 @@
         {
             var models = await this.models.GetByManufacturerIdAsync(manufacturerId);
 
-            return this.Json(new SelectList(models));
+            return this.Json(new SelectList(models.Select(HttpUtility.HtmlEncode)));
         }
     }
 }

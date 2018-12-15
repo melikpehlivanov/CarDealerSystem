@@ -29,7 +29,7 @@
         public const string NoReports = "Congratulations, today there aren't any reports to overview.";
 
         public const string ReportMarkedAsFalse =
-            "Report was successfully marked as false. Thank you for overviewing this report and helping our team.";
+            "Report was successfully marked as false. Thank you for reviewing this report and helping our team.";
 
         public const string ReportSubmittedSuccessfully =
             "Thank you for your report. One of our admins will review it as soon as possible.";

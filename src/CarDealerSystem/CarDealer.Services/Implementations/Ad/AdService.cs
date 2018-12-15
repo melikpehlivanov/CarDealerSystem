@@ -98,11 +98,17 @@
                 .Select(a => a.User.Email)
                 .SingleOrDefault();
 
-        public IQueryable<UserAdsListingServiceModel> GetAllAdsByOwnerId(string id)
-            => this.db
+        public async Task<IEnumerable<UserAdsListingServiceModel>> GetAllAdsByOwnerId(string id)
+            => (await this.db
                 .Ads
                 .Where(a => a.UserId == id && !a.IsDeleted)
-                .ProjectTo<UserAdsListingServiceModel>(this.mapper.ConfigurationProvider);
+                .Include(u => u.Vehicle)
+                .ThenInclude(m => m.Manufacturer)
+                .Include(m => m.Vehicle.Model)
+                .Include(p => p.Vehicle.Pictures)
+                .Include(u=> u.User)
+                .ToListAsync())
+                .Select(a => this.mapper.Map<UserAdsListingServiceModel>(a));
 
         public async Task<AdEditServiceModel> GetForUpdateAsync(int id)
             => await this.db
