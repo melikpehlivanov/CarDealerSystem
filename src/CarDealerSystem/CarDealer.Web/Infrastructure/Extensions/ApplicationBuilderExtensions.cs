@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Threading.Tasks;
     using System.Transactions;
     using CarDealer.Models;
@@ -90,7 +91,7 @@ Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
                         var model = manufacturers[manufacturerIndex].Models.ToList();
                         foreach (var vehicleModel in model)
                         {
-                            for (int vehicleCount = 0; vehicleCount < random.Next(1, 100); vehicleCount++)
+                            for (int vehicleCount = 0; vehicleCount < random.Next(1, 22); vehicleCount++)
                             {
                                 var phone = phoneNumbers[random.Next(1, phoneNumbers.Count)];
 
@@ -139,8 +140,8 @@ Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
                         }
                     }
                 }
-                
-                using (var scope = new TransactionScope(TransactionScopeOption.Required, TimeSpan.MaxValue))
+
+                using (var scope = CreateTransactionScope(TimeSpan.FromHours(1)))
                 {
                     try
                     {
@@ -158,15 +159,21 @@ Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
                         dbContext?.Dispose();
                     }
 
-                    try
-                    {
-                        scope.Complete();
-                    }
-                    catch (TimeoutException)
-                    {
-                    }
+                    scope.Complete();
                 }
             }
+        }
+
+        private static void SetTransactionManagerField(string fieldName, object value)
+        {
+            typeof(TransactionManager).GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Static).SetValue(null, value);
+        }
+
+        private static TransactionScope CreateTransactionScope(TimeSpan timeout)
+        {
+            SetTransactionManagerField("_cachedMaxTimeout", true);
+            SetTransactionManagerField("_maximumTimeout", timeout);
+            return new TransactionScope(TransactionScopeOption.RequiresNew, timeout);
         }
 
         private static CarDealerDbContext AddToContext<T>(CarDealerDbContext context,
@@ -199,7 +206,31 @@ Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
                         var totalTime = (1.0 / percentForCalculatingRemainingTime) * timeSpent;
                         var remainingTime = totalTime - timeSpent;
 
-                        Console.WriteLine("Completed: {0:f2}%. Remaining time: {1:%h} hours {1:%m} minutes and {1:%s} seconds.", percent, remainingTime);
+                        if (remainingTime.Hours > 0)
+                        {
+                            Console.WriteLine("Completed: {0:f2}%. Remaining time: {1:%h} hours {1:%m} minutes and {1:%s} seconds.", percent, remainingTime);
+                        }
+                        if (remainingTime.Hours == 0 && remainingTime.Minutes > 1 && remainingTime.Seconds > 1)
+                        {
+                            Console.WriteLine("Completed: {0:f2}%. Remaining time: {1:%m} minutes and {1:%s} seconds.", percent, remainingTime);
+                        }
+
+                        switch (remainingTime.Minutes)
+                        {
+                            case 1 when (remainingTime.Hours == 0 && remainingTime.Seconds > 1):
+                                Console.WriteLine("Completed: {0:f2}%. Remaining time: {1:%m} minute and {1:%s} seconds.",
+                                    percent, remainingTime);
+                                break;
+                            case 0 when (remainingTime.Hours == 0 && remainingTime.Seconds > 1):
+                                Console.WriteLine("Completed: {0:f2}%. Remaining time: {1:%s} seconds.", percent,
+                                    remainingTime);
+                                break;
+                        }
+
+                        if (remainingTime.Seconds == 1 && remainingTime.Hours == 0 && remainingTime.Minutes == 0)
+                        {
+                            Console.WriteLine("Completed: {0:f2}%. Remaining time: {1:%s} second.", percent, remainingTime);
+                        }
 
                     }
                     context.ChangeTracker.AutoDetectChangesEnabled = false;
@@ -372,7 +403,7 @@ Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
                     await userManager.AddToRoleAsync(seniorUser, adminRoleName);
                 }
             }
-            
+
         }
 
         #endregion
