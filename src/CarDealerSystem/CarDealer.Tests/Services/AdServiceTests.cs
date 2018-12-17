@@ -250,7 +250,7 @@
         //}
 
         [Fact]
-        public void GetAdOwnerEmail_WithValidId_ShouldReturnCorrectUser()
+        public async Task GetAdOwnerEmail_WithValidId_ShouldReturnCorrectUser()
         {
             // Arrange
             const int id = 1;
@@ -258,7 +258,7 @@
             this.dbContext.SaveChanges();
 
             // Act
-            var result = this.adService.GetAdOwnerEmail(id);
+            var result = await this.adService.GetAdOwnerEmail(id);
 
             // Assert
             result
@@ -272,7 +272,7 @@
         [InlineData(-1)]
         [InlineData(1000)]
         [InlineData(10000)]
-        public void GetAdOwnerEmail_WithInvalidId_ShouldReturnNull(int id)
+        public async Task GetAdOwnerEmail_WithInvalidId_ShouldReturnNull(int id)
         {
             // Arrange
             this.dbContext.Ads.Add(new Ad { Id = 1, IsDeleted = false, User = new User { Id = SampleUserId, Email = "SampleEmail", } });
@@ -280,7 +280,7 @@
             this.dbContext.SaveChanges();
 
             // Act
-            var result = this.adService.GetAdOwnerEmail(id);
+            var result = await this.adService.GetAdOwnerEmail(id);
 
             // Assert
             result
