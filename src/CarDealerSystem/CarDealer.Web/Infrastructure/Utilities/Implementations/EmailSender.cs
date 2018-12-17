@@ -1,7 +1,7 @@
-﻿namespace CarDealer.Web.Areas.Identity.Pages.Services.Email
+﻿namespace CarDealer.Web.Infrastructure.Utilities.Implementations
 {
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Identity.UI.Services;
+    using Interfaces;
     using Microsoft.Extensions.Options;
     using SendGrid;
     using SendGrid.Helpers.Mail;
@@ -15,15 +15,13 @@
             this.options = options.Value;
         }
 
-        public async Task SendEmailAsync(string email, string subject, string htmlMessage)
+        public async Task SendEmailAsync(string sender, string receiver, string subject, string htmlMessage)
         {
             var client = new SendGridClient(this.options.SendGridApiKey);
-            var from = new EmailAddress("mytestedcardealer@gmail.com");
-            var to = new EmailAddress(email, email);
+            var from = new EmailAddress(sender);
+            var to = new EmailAddress(receiver, receiver);
             var msg = MailHelper.CreateSingleEmail(from, to, subject, htmlMessage, htmlMessage);
-            var response = await client.SendEmailAsync(msg);
-            var body = await response.Body.ReadAsStringAsync();
-            var statusCode = response.StatusCode;
+            await client.SendEmailAsync(msg);
         }
     }
 }

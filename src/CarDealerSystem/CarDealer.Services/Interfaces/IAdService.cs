@@ -14,7 +14,7 @@
 
         Task<AdDetailsServiceModel> GetAsync(int id);
 
-        string GetAdOwnerEmail(int id);
+        Task<string> GetAdOwnerEmail(int id);
 
         Task<IEnumerable<UserAdsListingServiceModel>> GetAllAdsByOwnerId(string userId);
 

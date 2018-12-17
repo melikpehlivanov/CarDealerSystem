@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace CarDealer.Web.Areas.Identity.Pages.Account.Manage
 {
     using CarDealer.Models;
+    using Infrastructure.Utilities.Interfaces;
 
     public partial class IndexModel : PageModel
     {
@@ -136,6 +136,7 @@ namespace CarDealer.Web.Areas.Identity.Pages.Account.Manage
                 values: new { userId = userId, code = code },
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
+                WebConstants.AppMainEmailAddress,
                 email,
                 "Confirm your email",
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");

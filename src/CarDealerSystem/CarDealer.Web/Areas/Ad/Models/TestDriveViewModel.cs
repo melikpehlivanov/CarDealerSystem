@@ -1,8 +1,8 @@
-﻿namespace CarDealer.Web.Areas.ContactUs.Models
+﻿namespace CarDealer.Web.Areas.Ad.Models
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class ContactUsFormViewModel
+    public class TestDriveViewModel
     {
         [Required]
         public string Name { get; set; }
@@ -16,5 +16,9 @@
 
         [Required]
         public string Message { get; set; }
+
+        public int ReceiverId { get; set; }
+
+        public string Receiver { get; set; }
     }
 }

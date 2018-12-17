@@ -115,10 +115,6 @@
                                         </span>
                                         <span class="tt-data">@currentVehicle.TotalMileage</span>
                                     </a>
-                                    <ul class="tt-icon tt-image-box">
-                                        <li><a href="#" data-toggle="modal" data-target="#modalAddTestDrive" title="TEST-DRIVE" class="tt-image-box"><i class="icon-testdrive"></i></a></li>
-                                        <li><a href="@currentVehicle.Pictures" title="GALLERY" class="tt-btn-zomm"><i class="icon-photo-camera"></i></a></li>
-                                    </ul>
                                 </div>
                                 <div class="tt-wrapper-description">
                                     <div class="tt-row-01">
@@ -195,113 +191,55 @@
     </div>
 </div>
 <a href="#" id="ttBackToTop" class="tt-back-to-top">BACK TO TOP</a>
-<!-- modal (AddTestDrive) -->
-<div class="modal fade" id="modalAddTestDrive" tabindex="-1" role="dialog" aria-label="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content ">
-            <div class="modal-body modal-layout-dafault">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="icon-close"></span></button>
-                <h5 class="modal-title">Book a Test Drive</h5>
-                <p class="tt-default-color02">
-                    Please complete the form below and an we will contact you to arrange your test drive.
-                </p>
-                <form>
-                    <div class="tt-form-default02">
-                        <div class="form-group">
-                            <input type="text" name="name" class="form-control" placeholder="Your name*">
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-sm-6">
-                                <div class="form-group">
-                                    <input type="email" name="name" class="form-control" placeholder="E-mail*">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" name="name" class="form-control" placeholder="Phone #">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <h6 class="tt-title">Preferred date and time of Test Drive</h6>
-                    <div class="tt-row-calendar tt-form-default">
-                        <input type="text" name="name" class="form-control" placeholder="12 / 12 / 2018">
-                        <select class="tt-select tt-skin-01">
-                            <option value="01" disabled selected>12</option>
-                            <option value="02">02</option>
-                            <option value="03">03</option>
-                            <option value="04">04</option>
-                            <option value="05">05</option>
-                            <option value="06">06</option>
-                        </select>
-                        <span class="tt-text-separator">:</span>
-                        <select class="tt-select tt-skin-01">
-                            <option value="01" disabled selected>30</option>
-                            <option value="02">02</option>
-                            <option value="03">03</option>
-                            <option value="04">04</option>
-                            <option value="05">05</option>
-                            <option value="06">06</option>
-                        </select>
-                    </div>
-                    <ul class="list-form-column">
-                        <li>
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="checkBox12" name="checkbox" checked>
-                                <label for="checkBox12">
-                                    <span class="check"></span>
-                                    <span class="box"></span>
-                                    I AGREE TO RECEIVE EMAILS FROM CAR LEADER
-                                </label>
-                            </div>
-                        </li>
-                    </ul>
-                    <a href="#" class="btn">SUBMIT</a>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-@*</div>*@
+
+<partial name="_ValidationScriptsPartial" />
 
 @section Scripts{
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function() {
             var url = '/Vehicle/Vehicle/GetModelsByManufacturerId';
             var ddlSourse = "#ManufacturerId";
-            $.getJSON(url, { manufacturerId: $(ddlSourse).val() }, function (data) {
-                var items = '';
-                $('#ModelName').empty();
-                $.each(data, function (i, vehModel) {
-                    var vehicleCurrentModel = '@Model.ModelName';
-                    var selected = vehicleCurrentModel === vehModel.text ? " selected" : "";
-                    items += "<option" + selected + ">" + vehModel.text + "</option>";
+            $.getJSON(url,
+                { manufacturerId: $(ddlSourse).val() },
+                function(data) {
+                    var items = '';
+                    $('#ModelName').empty();
+                    $.each(data,
+                        function(i, vehModel) {
+                            var vehicleCurrentModel = '@Model.ModelName';
+                            var selected = vehicleCurrentModel === vehModel.text ? " selected" : "";
+                            items += "<option" + selected + ">" + vehModel.text + "</option>";
+                        });
+                    $('#ModelName').html(items);
                 });
-                $('#ModelName').html(items);
-            });
         });
     </script>
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#ManufacturerId').on('change', function () {
-                var url = '/Vehicle/Vehicle/GetModelsByManufacturerId';
-                var ddlSourse = "#ManufacturerId";
-                $.getJSON(url, { manufacturerId: $(ddlSourse).val() }, function (data) {
-                    var items = '<li data-value="--- All ---" class="option disabled">--- All ---</li>';
-                    var items2 = "<option>--- All ---</option>";
-                    $('#ModelName').next('div').find('ul').empty();
-                    for (var i = 0; i < data.length; i++) {
-                        var item = `<li data-value="${data[i].text}" class="option focus">${data[i].text}</li\>`;
-                        items += item;
-                    }
-                    $.each(data, function (i, vehModel) {
-                        items2 += "<option>" + vehModel.text + "</option>";
-                    });
-                    $('#ModelName').next('div').find('ul').html(items);
-                    $('#ModelName').html(items2);
+            $('#ManufacturerId').on('change',
+                function () {
+                    var url = '/Vehicle/Vehicle/GetModelsByManufacturerId';
+                    var ddlSourse = "#ManufacturerId";
+                    $.getJSON(url,
+                        { manufacturerId: $(ddlSourse).val() },
+                        function (data) {
+                            var items = '<li data-value="--- All ---" class="option disabled">--- All ---</li>';
+                            var items2 = "<option>--- All ---</option>";
+                            $('#ModelName').next('div').find('ul').empty();
+                            for (var i = 0; i < data.length; i++) {
+                                var item =
+                                    `<li data-value="${data[i].text}" class="option focus">${data[i].text}</li\>`;
+                                items += item;
+                            }
+                            $.each(data,
+                                function (i, vehModel) {
+                                    items2 += "<option>" + vehModel.text + "</option>";
+                                });
+                            $('#ModelName').next('div').find('ul').html(items);
+                            $('#ModelName').html(items2);
+                        });
                 });
-            });
         });
     </script>
 }

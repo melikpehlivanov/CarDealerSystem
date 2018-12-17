@@ -1,10 +1,10 @@
 ﻿namespace CarDealer.Web
 {
-    using Areas.Identity.Pages.Services.Email;
     using AutoMapper;
     using CarDealer.Models;
     using Data;
     using Infrastructure.Extensions;
+    using Infrastructure.Utilities;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;

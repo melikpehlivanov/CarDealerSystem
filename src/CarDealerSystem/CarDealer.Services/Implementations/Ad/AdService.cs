@@ -91,12 +91,12 @@
                 .ProjectTo<AdDetailsServiceModel>(this.mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
 
-        public string GetAdOwnerEmail(int id)
-            => this.db
+        public async Task<string> GetAdOwnerEmail(int id)
+            => await this.db
                 .Ads
                 .Where(a => a.Id == id)
                 .Select(a => a.User.Email)
-                .SingleOrDefault();
+                .SingleOrDefaultAsync();
 
         public async Task<IEnumerable<UserAdsListingServiceModel>> GetAllAdsByOwnerId(string id)
             => (await this.db

@@ -37,6 +37,7 @@
         private readonly IDateTimeProvider dateTimeProvider;
         private readonly IAdService ads;
         private readonly IPictureService pictures;
+        private readonly IEmailSender emailSender;
 
         public AdController(
             IHostingEnvironment hostingEnvironment,
@@ -47,7 +48,8 @@
             UserManager<User> userManager,
             IMapper mapper,
             IAdService ads,
-            IPictureService pictures)
+            IPictureService pictures,
+            IEmailSender emailSender)
         {
             this.webRootPath = hostingEnvironment.WebRootPath;
             this.cache = cache;
@@ -58,8 +60,9 @@
             this.mapper = mapper;
             this.ads = ads;
             this.pictures = pictures;
+            this.emailSender = emailSender;
         }
-        
+
         public async Task<IActionResult> Index(string id, string searchTerm, int page = 1)
         {
             page = Math.Max(1, page);
@@ -191,7 +194,7 @@
                 this.ShowNotification(NotificationMessages.AdDoesNotExist);
                 return RedirectToAction(nameof(Index), "Home");
             }
-            
+
             var model = this.mapper.Map<AdDetailsServiceModel, AdDetailsViewModel>(ad);
             model.Vehicle = this.mapper.Map<VehicleDetailsServiceModel, AdDetailsVehicleModel>(ad.Vehicle);
             model.Vehicle.Features = await this.vehicleElements.GetFeaturesByIdAsync(id);
@@ -306,6 +309,21 @@
             this.ShowNotification(NotificationMessages.AdDeletedSuccessfully, NotificationType.Success);
             return RedirectToAction(nameof(Index), new { id = userId });
         }
+        
+        [AllowAnonymous]
+        public async Task<IActionResult> ContactOwner(TestDriveViewModel model)
+        {
+            var receiver = await this.ads.GetAdOwnerEmail(model.ReceiverId);
+            if (receiver == null)
+            {
+                this.ShowNotification(NotificationMessages.InvalidOperation);
+                return RedirectToAction(nameof(Details), new { id = model.ReceiverId });
+            }
+            await this.emailSender.SendEmailAsync(model.Email, receiver, model.Subject, model.Message);
+
+            this.ShowNotification(NotificationMessages.EmailSentSuccessfully, NotificationType.Success);
+            return RedirectToAction(nameof(Details), new { id = model.ReceiverId });
+        }
 
         #region privateMethods
 
@@ -322,7 +340,7 @@
 
             return model;
         }
-        
+
         private async Task<AdEditViewModel> InitializeEditionModel(AdEditViewModel model)
         {
             var checkedFeatures = await this.vehicleElements.GetFeaturesByIdAsync(model.Id);
@@ -341,7 +359,7 @@
             model.Vehicle.AllFeatures = allFeatures;
             return model;
         }
-        
+
         private IEnumerable<SelectListItem> GetAvailableYears()
         {
             return Enumerable

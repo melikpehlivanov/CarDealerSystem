@@ -1,4 +1,4 @@
-﻿namespace CarDealer.Web.Areas.Identity.Pages.Services.Email
+﻿namespace CarDealer.Web.Infrastructure.Utilities
 {
     public class SendGridOptions
     {
