@@ -8,7 +8,6 @@
     using Common;
     using Common.AutoMapping.Interfaces;
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using Services.Models;
     using Services.Models.Vehicle;
 
     public class AdVehicleEdit : IMapWith<VehicleEditServiceModel>
@@ -17,14 +16,12 @@
         public int Id { get; set; }
 
         public string Description { get; set; }
-
-        [Required]
+        
         [Display(Name = "Make")]
         public int ManufacturerId { get; set; }
 
         public IEnumerable<SelectListItem> AllManufacturers { get; set; }
-
-        [Required]
+        
         [Display(Name = "Model")]
         public string ModelName { get; set; }
 

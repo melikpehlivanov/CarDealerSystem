@@ -116,7 +116,7 @@
                     var extension = GetValidExtension(picture.FileName);
                     var vehiclePictureFolder = $@"vehicle{id}";
 
-                    var dbPath = string.Format(@"/images/vehicles/{0}/{1}", vehiclePictureFolder, GetUniqueFileName(id, extension));
+                    var dbPath = $@"/images/vehicles/{vehiclePictureFolder}/{GetUniqueFileName(id, extension)}";
 
                     var fileProcessingSuccess = ProcessFile(picture, dbPath);
 
@@ -198,30 +198,7 @@
             var model = this.mapper.Map<AdDetailsServiceModel, AdDetailsViewModel>(ad);
             model.Vehicle = this.mapper.Map<VehicleDetailsServiceModel, AdDetailsVehicleModel>(ad.Vehicle);
             model.Vehicle.Features = await this.vehicleElements.GetFeaturesByIdAsync(id);
-
-            //var model = new AdDetailsViewModel
-            //{
-            //    Id = id,
-            //    UserEmail = ad.UserEmail,
-            //    PhoneNumber = ad.PhoneNumber,
-            //    IsReported = ad.IsReported,
-            //    Vehicle = new AdDetailsVehicleModel
-            //    {
-            //        FullModelName = vehicle.FullModelName,
-            //        Description = vehicle.Description,
-            //        Engine = vehicle.Engine,
-            //        EngineHorsePower = vehicle.EngineHorsePower,
-            //        FuelConsumption = vehicle.FuelConsumption,
-            //        FuelTypeName = vehicle.FuelTypeName,
-            //        TransmissionTypeName = vehicle.TransmissionTypeName,
-            //        YearOfProduction = vehicle.YearOfProduction,
-            //        Price = vehicle.Price,
-            //        TotalMileage = vehicle.TotalMileage,
-            //        Pictures = vehicle.Pictures,
-            //        Features = await this.vehicleElements.GetFeaturesByIdAsync(id)
-            //    }
-            //};
-
+            
             return View(model);
         }
 
@@ -241,6 +218,7 @@
         }
 
         [HttpPost]
+        [EnsureOwnership]
         public async Task<IActionResult> Edit(AdEditViewModel model)
         {
             if (!this.ModelState.IsValid)
