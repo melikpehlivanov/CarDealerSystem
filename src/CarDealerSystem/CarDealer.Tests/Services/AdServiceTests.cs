@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using CarDealer.Services.Implementations.Ad;
+    using CarDealer.Services.Models;
     using CarDealer.Services.Models.Ad;
     using CarDealer.Services.Models.Report;
     using CarDealer.Services.Models.User;
@@ -39,7 +40,7 @@
         }
 
         [Fact]
-        public async Task CreateAsync_WithoutModel_ShouldReturnZeroAndNotInsertAdInDatabase()
+        public async Task CreateAsync_WithoutModel_ShouldReturnEmptyModelAndNotInsertAdInDatabase()
         {
             // Act
             var result = await this.adService.CreateAsync(null);
@@ -47,7 +48,11 @@
             // Assert
             result
                 .Should()
-                .Be(0);
+                .BeAssignableTo<AdAndVehicleIds>()
+                .And
+                .Match(x => x.As<AdAndVehicleIds>().AdId == 0)
+                .And
+                .Match(x => x.As<AdAndVehicleIds>().VehicleId == 0);
 
             this.dbContext
                 .Ads
@@ -56,7 +61,7 @@
         }
 
         [Fact]
-        public async Task CreateAsync_WithInvalidManufacturerId_ShouldReturnZeroAndNotInsertAdInDatabase()
+        public async Task CreateAsync_WithInvalidManufacturerId_ShouldReturnEmptyModelAndNotInsertAdInDatabase()
         {
             // Arrange
             this.SeedManufacturer(1, SampleManufacturerName);
@@ -72,7 +77,11 @@
             // Assert
             result
                 .Should()
-                .Be(0);
+                .BeAssignableTo<AdAndVehicleIds>()
+                .And
+                .Match(x => x.As<AdAndVehicleIds>().AdId == 0)
+                .And
+                .Match(x => x.As<AdAndVehicleIds>().VehicleId == 0);
 
             this.dbContext
                 .Ads
@@ -81,7 +90,7 @@
         }
 
         [Fact]
-        public async Task CreateAsync_WithInvalidModelName_ShouldReturnZeroAndNotInsertAdInDatabase()
+        public async Task CreateAsync_WithInvalidModelName_ShouldReturnEmptyModelAndNotInsertAdInDatabase()
         {
             // Arrange
             this.SeedManufacturer(1, SampleManufacturerName);
@@ -96,7 +105,11 @@
             // Assert
             result
                 .Should()
-                .Be(0);
+                .BeAssignableTo<AdAndVehicleIds>()
+                .And
+                .Match(x => x.As<AdAndVehicleIds>().AdId == 0)
+                .And
+                .Match(x => x.As<AdAndVehicleIds>().VehicleId == 0);
 
             this.dbContext
                 .Ads
@@ -105,7 +118,7 @@
         }
 
         [Fact]
-        public async Task CreateAsync_WithInvalidEngineHorsePower_ShouldReturnZeroAndNotInsertAdInDatabase()
+        public async Task CreateAsync_WithInvalidEngineHorsePower_ShouldReturnEmptyModelAndNotInsertAdInDatabase()
         {
             // Arrange
             this.SeedManufacturer(1, SampleManufacturerName);
@@ -117,7 +130,11 @@
             // Assert
             result
                 .Should()
-                .Be(0);
+                .BeAssignableTo<AdAndVehicleIds>()
+                .And
+                .Match(x => x.As<AdAndVehicleIds>().AdId == 0)
+                .And
+                .Match(x => x.As<AdAndVehicleIds>().VehicleId == 0);
 
             this.dbContext
                 .Ads
@@ -126,7 +143,7 @@
         }
 
         [Fact]
-        public async Task CreateAsync_WithInvalidYearOfManufacture_ShouldReturnZeroAndNotInsertAdInDatabase()
+        public async Task CreateAsync_WithInvalidYearOfManufacture_ShouldEmptyModelAndNotInsertAdInDatabase()
         {
             // Arrange
             this.SeedManufacturer(1, SampleManufacturerName);
@@ -139,7 +156,11 @@
             // Assert
             result
                 .Should()
-                .Be(0);
+                .BeAssignableTo<AdAndVehicleIds>()
+                .And
+                .Match(x => x.As<AdAndVehicleIds>().AdId == 0)
+                .And
+                .Match(x => x.As<AdAndVehicleIds>().VehicleId == 0);
 
             this.dbContext
                 .Ads
@@ -148,7 +169,7 @@
         }
 
         [Fact]
-        public async Task CreateAsync_WithInvalidFuelConsumption_ShouldReturnZeroAndNotInsertAdInDatabase()
+        public async Task CreateAsync_WithInvalidFuelConsumption_ShouldEmptyModelAndNotInsertAdInDatabase()
         {
             // Arrange
             this.SeedManufacturer(1, SampleManufacturerName);
@@ -161,7 +182,11 @@
             // Assert
             result
                 .Should()
-                .Be(0);
+                .BeAssignableTo<AdAndVehicleIds>()
+                .And
+                .Match(x => x.As<AdAndVehicleIds>().AdId == 0)
+                .And
+                .Match(x => x.As<AdAndVehicleIds>().VehicleId == 0);
 
             this.dbContext
                 .Ads
@@ -170,7 +195,7 @@
         }
 
         [Fact]
-        public async Task CreateAsync_WithInvalidTotalMileage_ShouldReturnZeroAndNotInsertAdInDatabase()
+        public async Task CreateAsync_WithInvalidTotalMileage_ShouldEmptyModelAndNotInsertAdInDatabase()
         {
             // Arrange
             this.SeedManufacturer(1, SampleManufacturerName);
@@ -183,7 +208,11 @@
             // Assert
             result
                 .Should()
-                .Be(0);
+                .BeAssignableTo<AdAndVehicleIds>()
+                .And
+                .Match(x => x.As<AdAndVehicleIds>().AdId == 0)
+                .And
+                .Match(x => x.As<AdAndVehicleIds>().VehicleId == 0);
 
             this.dbContext
                 .Ads
@@ -192,7 +221,7 @@
         }
 
         [Fact]
-        public async Task CreateAsync_WithInvalidPrice_ShouldReturnZeroAndNotInsertAdInDatabase()
+        public async Task CreateAsync_WithInvalidPrice_ShouldEmptyModelAndNotInsertAdInDatabase()
         {
             // Arrange
             this.SeedManufacturer(1, SampleManufacturerName);
@@ -205,7 +234,11 @@
             // Assert
             result
                 .Should()
-                .Be(0);
+                .BeAssignableTo<AdAndVehicleIds>()
+                .And
+                .Match(x => x.As<AdAndVehicleIds>().AdId == 0)
+                .And
+                .Match(x => x.As<AdAndVehicleIds>().VehicleId == 0);
 
             this.dbContext
                 .Ads
