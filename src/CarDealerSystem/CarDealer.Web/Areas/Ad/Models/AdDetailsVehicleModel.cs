@@ -5,6 +5,7 @@
     using System.Linq;
     using CarDealer.Models;
     using CarDealer.Models.BasicTypes;
+    using Common;
 
     public class AdDetailsVehicleModel
     {
@@ -39,6 +40,10 @@
 
         private string GetPrimaryPicturePath(IEnumerable<Picture> pictures)
         {
+            if (!pictures.Any())
+            {
+                return $"{GlobalConstants.DefaultPicturePath}";
+            }
             var firstPic = pictures.First();
 
             return firstPic?.Path;

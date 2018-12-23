@@ -24,9 +24,10 @@
 
         public IEnumerable<SelectListItem> AvailableYears { get; set; }
         
+        [Required]
         [Display(Name = "Fuel type")]
         public int FuelTypeId { get; set; }
-
+        
         public IEnumerable<SelectListItem> AllFuelTypes { get; set; }
 
         [Required]

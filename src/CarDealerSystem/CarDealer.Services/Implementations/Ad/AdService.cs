@@ -11,6 +11,7 @@
     using Data;
     using Interfaces;
     using Microsoft.EntityFrameworkCore;
+    using Models;
     using Models.Ad;
     using Models.Report;
     using Models.User;
@@ -26,17 +27,25 @@
             this.mapper = mapper;
         }
 
-        public async Task<int> CreateAsync(VehicleCreateServiceModel model)
+        public async Task<AdAndVehicleIds> CreateAsync(VehicleCreateServiceModel model)
         {
             if (model == null)
             {
-                return default(int);
+                return new AdAndVehicleIds
+                {
+                    AdId = 0,
+                    VehicleId = 0,
+                };
             }
 
             var manufacturerExist = await this.db.Manufacturers.AnyAsync(m => m.Id == model.ManufacturerId);
             if (!manufacturerExist)
             {
-                return default(int);
+                return new AdAndVehicleIds
+                {
+                    AdId = 0,
+                    VehicleId = 0,
+                };
             }
 
             var newVehicle = this.mapper.Map<Vehicle>(model);
@@ -46,7 +55,11 @@
 
             if (newVehicle.Model == null)
             {
-                return default(int);
+                return new AdAndVehicleIds
+                {
+                    AdId = 0,
+                    VehicleId = 0,
+                };
             }
 
             var vehicleFeatures = new List<VehicleFeature>();
@@ -79,10 +92,18 @@
             }
             catch
             {
-                return default(int);
+                return new AdAndVehicleIds
+                {
+                    AdId = 0,
+                    VehicleId = 0,
+                };
             }
 
-            return newVehicle.Id;
+            return new AdAndVehicleIds
+            {
+                AdId = newAd.Id,
+                VehicleId = newVehicle.Id,
+            };
         }
 
         public async Task<AdDetailsServiceModel> GetAsync(int id)
@@ -106,7 +127,7 @@
                 .ThenInclude(m => m.Manufacturer)
                 .Include(m => m.Vehicle.Model)
                 .Include(p => p.Vehicle.Pictures)
-                .Include(u=> u.User)
+                .Include(u => u.User)
                 .ToListAsync())
                 .Select(a => this.mapper.Map<UserAdsListingServiceModel>(a));
 
@@ -122,7 +143,7 @@
             var ad = await this.db
                 .Ads
                 .Include(v => v.Vehicle)
-                .SingleOrDefaultAsync(a=> a.Id == id);
+                .SingleOrDefaultAsync(a => a.Id == id);
 
             if (ad == null)
             {
@@ -222,7 +243,7 @@
             {
                 return false;
             }
-            
+
             try
             {
                 ad.IsReported = false;

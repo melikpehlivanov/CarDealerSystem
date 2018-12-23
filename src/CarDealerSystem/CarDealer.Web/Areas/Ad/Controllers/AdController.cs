@@ -151,8 +151,7 @@
             model.UserId = this.userManager.GetUserId(this.User);
             var serviceModel = this.mapper.Map<VehicleCreateServiceModel>(model);
             serviceModel.FeatureIds = new List<int>(model.AllFeatures.Select(f => f.Id));
-            var newAdId = await this.ads.CreateAsync(serviceModel);
-
+            var newAd = await this.ads.CreateAsync(serviceModel);
             try
             {
 
@@ -160,16 +159,17 @@
                 {
                     // Process the file to the file system:
                     var extension = GetValidExtension(picture.FileName);
-                    var vehiclePictureFolder = $@"vehicle{newAdId}";
+                    var vehiclePictureFolder = $@"vehicle{newAd.VehicleId}";
 
-                    var dbPath = string.Format(@"/images/vehicles/{0}/{1}", vehiclePictureFolder, GetUniqueFileName(newAdId, extension));
+                    var dbPath =
+                        $@"/images/vehicles/{vehiclePictureFolder}/{GetUniqueFileName(newAd.VehicleId, extension)}";
 
                     var fileProcessingSuccess = ProcessFile(picture, dbPath);
 
                     if (fileProcessingSuccess)
                     {
                         // After successfull processing the image to file system => save it to database:
-                        var success = await this.pictures.CreateAsync(dbPath, newAdId);
+                        var success = await this.pictures.CreateAsync(dbPath, newAd.VehicleId);
                         if (!success)
                         {
                             return View(model);
@@ -182,7 +182,7 @@
                 return View(model);
             }
 
-            return RedirectToAction(nameof(Details), new { id = newAdId });
+            return RedirectToAction(nameof(Details), new { id = newAd.AdId });
         }
 
         [AllowAnonymous]

@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Models;
     using Models.Ad;
     using Models.Report;
     using Models.User;
@@ -10,7 +11,7 @@
 
     public interface IAdService
     {
-        Task<int> CreateAsync(VehicleCreateServiceModel model);
+        Task<AdAndVehicleIds> CreateAsync(VehicleCreateServiceModel model);
 
         Task<AdDetailsServiceModel> GetAsync(int id);
 
