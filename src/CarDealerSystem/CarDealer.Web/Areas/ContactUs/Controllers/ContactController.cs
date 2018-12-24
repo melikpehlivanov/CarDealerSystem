@@ -24,7 +24,7 @@
                 model.Message);
 
             this.ShowNotification(NotificationMessages.EmailSentSuccessfully, NotificationType.Success);
-            return RedirectToAction(nameof(HomeController.Contact), "Home", new { area = "" });
+            return RedirectToAction(nameof(HomeController.Contact), ControllersAndActionsConstants.HomeControllerName, new { area = "" });
         }
 
         private void ShowNotification(string message, NotificationType notificationType = NotificationType.Error)

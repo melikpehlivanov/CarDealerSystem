@@ -12,6 +12,18 @@
 
     public class EnsureOwnership : ActionFilterAttribute
     {
+        private const string HomePath = "/";
+        private const string VehicleId = "vehicleId";
+        private const string AdId = "adId";
+        private const string Id = "id";
+
+        private readonly bool isAdminAllowed;
+
+        public EnsureOwnership(bool isAdminAllowed = true)
+        {
+            this.isAdminAllowed = isAdminAllowed;
+        }
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             var httpContext = context.HttpContext;
@@ -21,12 +33,16 @@
             var userId = userManager?.GetUserId(context.HttpContext.User);
             var adId = this.GetAdId(context);
 
-            if (context.HttpContext.User.IsInRole(WebConstants.SeniorAdministratorRole) || context.HttpContext.User.IsInRole(WebConstants.AdministratorRole))
+            if (this.isAdminAllowed)
             {
-                var dbAd = database?.Ads.AsNoTracking().FirstOrDefault(v => v.Id == adId);
-                if (dbAd == null)
+                if (context.HttpContext.User.IsInRole(WebConstants.SeniorAdministratorRole) ||
+                    context.HttpContext.User.IsInRole(WebConstants.AdministratorRole))
                 {
-                    context.Result = new LocalRedirectResult("/");
+                    var dbAd = database?.Ads.AsNoTracking().FirstOrDefault(v => v.Id == adId);
+                    if (dbAd == null)
+                    {
+                        context.Result = new ForbidResult();
+                    }
                 }
             }
             else
@@ -34,9 +50,10 @@
                 var dbAd = database?.Ads.AsNoTracking().FirstOrDefault(v => v.Id == adId);
                 if (dbAd == null || dbAd.UserId != userId)
                 {
-                    context.Result = new LocalRedirectResult("/");
+                    context.Result = new ForbidResult();
                 }
             }
+
 
             base.OnActionExecuting(context);
         }
@@ -46,19 +63,19 @@
             var actionArguments = context.ActionArguments;
             var controllerTypeName = context.Controller.GetType().Name;
 
-            if (actionArguments.ContainsKey("vehicleId"))
+            if (actionArguments.ContainsKey(VehicleId))
             {
-                return (int)actionArguments["vehicleId"];
+                return (int)actionArguments[VehicleId];
             }
 
-            if (actionArguments.ContainsKey("adId"))
+            if (actionArguments.ContainsKey(AdId))
             {
-                return (int)actionArguments["adId"];
+                return (int)actionArguments[AdId];
             }
 
-            if (actionArguments.ContainsKey("id"))
+            if (actionArguments.ContainsKey(Id))
             {
-                var entityId = actionArguments["id"] as int?;
+                var entityId = actionArguments[Id] as int?;
 
                 switch (controllerTypeName)
                 {
@@ -77,10 +94,10 @@
                 var vehicleIdProperty = controllerTypeName == nameof(AdController)
                     ? model.GetType()
                         .GetProperties()
-                        .FirstOrDefault(pi => pi.Name.ToLower() == "vehicleId" || pi.Name.ToLower() == "adId")
+                        .FirstOrDefault(pi => pi.Name.ToLower() == VehicleId || pi.Name.ToLower() == AdId)
                     : model.GetType()
                         .GetProperties()
-                        .FirstOrDefault(pi => pi.Name.ToLower() == "id");
+                        .FirstOrDefault(pi => pi.Name.ToLower() == Id);
 
                 if (vehicleIdProperty != null)
                 {

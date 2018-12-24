@@ -28,6 +28,10 @@
 
     public class AdController : BaseController
     {
+        private const string NoAdsFoundView = "NoAdsView";
+        private const string DbPath = "/images/vehicles/{0}/{1}";
+        private const string VehiclePictureFolder = "vehicle{0}";
+
         private readonly string webRootPath;
         private readonly UserManager<User> userManager;
         private readonly IMapper mapper;
@@ -69,7 +73,7 @@
             var allAds = await this.ads.GetAllAdsByOwnerId(id);
             if (!allAds.Any())
             {
-                return View("NoAdsView");
+                return View(NoAdsFoundView);
             }
 
             if (!string.IsNullOrWhiteSpace(searchTerm))
@@ -114,9 +118,8 @@
                 {
                     // Process the file to the file system:
                     var extension = GetValidExtension(picture.FileName);
-                    var vehiclePictureFolder = $@"vehicle{id}";
-
-                    var dbPath = $@"/images/vehicles/{vehiclePictureFolder}/{GetUniqueFileName(id, extension)}";
+                    var vehiclePictureFolder = string.Format(VehiclePictureFolder, id);
+                    var dbPath = string.Format(DbPath, vehiclePictureFolder, GetUniqueFileName(id, extension));
 
                     var fileProcessingSuccess = ProcessFile(picture, dbPath);
 
@@ -159,11 +162,9 @@
                 {
                     // Process the file to the file system:
                     var extension = GetValidExtension(picture.FileName);
-                    var vehiclePictureFolder = $@"vehicle{newAd.VehicleId}";
-
-                    var dbPath =
-                        $@"/images/vehicles/{vehiclePictureFolder}/{GetUniqueFileName(newAd.VehicleId, extension)}";
-
+                    var vehiclePictureFolder = string.Format(VehiclePictureFolder, newAd.VehicleId);
+                    var dbPath = string.Format(DbPath, vehiclePictureFolder, GetUniqueFileName(newAd.VehicleId, extension));
+                    
                     var fileProcessingSuccess = ProcessFile(picture, dbPath);
 
                     if (fileProcessingSuccess)
@@ -192,7 +193,7 @@
             if (ad?.Vehicle == null)
             {
                 this.ShowNotification(NotificationMessages.AdDoesNotExist);
-                return RedirectToAction(nameof(Index), "Home");
+                return RedirectToHome();
             }
 
             var model = this.mapper.Map<AdDetailsServiceModel, AdDetailsViewModel>(ad);
@@ -202,13 +203,13 @@
             return View(model);
         }
 
-        [EnsureOwnership]
+        [EnsureOwnership(isAdminAllowed: false)]
         public async Task<IActionResult> Edit(int id)
         {
             var ad = await this.ads.GetForUpdateAsync(id);
             if (ad == null)
             {
-                return RedirectToAction(nameof(Index), "Home");
+                return RedirectToHome();
             }
 
             var model = await InitializeEditionModel(this.mapper.Map<AdEditViewModel>(ad));
@@ -218,8 +219,8 @@
         }
 
         [HttpPost]
-        [EnsureOwnership]
-        public async Task<IActionResult> Edit(AdEditViewModel model)
+        [EnsureOwnership(isAdminAllowed: false)]
+        public async Task<IActionResult> Edit(AdEditViewModel model, int id)
         {
             if (!this.ModelState.IsValid)
             {
@@ -262,7 +263,7 @@
             if (ad == null)
             {
                 this.ShowNotification(NotificationMessages.AdDoesNotExist);
-                return RedirectToAction(nameof(Index), "Home");
+                return RedirectToHome();
             }
 
             var model = this.mapper.Map<AdDetailsViewModel>(ad);

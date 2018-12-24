@@ -3,7 +3,6 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-    using Ad.Controllers;
     using AutoMapper;
     using Common.Notifications;
     using Infrastructure.Collections;
@@ -73,11 +72,11 @@
             if (!success)
             {
                 this.ShowNotification(NotificationMessages.InvalidOperation);
-                return RedirectToAction(nameof(AdController.Details), "Ad", new { model.Id });
+                return RedirectToAdDetails(model.Id);
             }
 
             this.ShowNotification(NotificationMessages.ReportSubmittedSuccessfully, NotificationType.Success);
-            return RedirectToAction("Details", "Ad", new { area = "Ad", model.Id });
+            return RedirectToAdDetails(model.Id);
         }
 
         [Log]

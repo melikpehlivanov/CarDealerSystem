@@ -31,8 +31,8 @@
                     string.Format(NotificationMessages.ModelCreatedSuccessfully, name),
                     NotificationType.Success);
             }
-
-            return RedirectToAction(nameof(ManufacturerController.Details), "Manufacturer", new { id = manufacturerId });
+            
+            return RedirectToManufacturerDetails(manufacturerId);
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -41,7 +41,7 @@
             if (model == null)
             {
                 this.ShowNotification(NotificationMessages.InvalidOperation);
-                return RedirectToAction(nameof(ManufacturerController.Index), "Manufacturer");
+                return RedirectToManufacturerIndex();
             }
 
             return View(model);
@@ -65,7 +65,7 @@
                 this.ShowNotification(string.Format(NotificationMessages.ModelUpdatedSuccessfully, model.Name), NotificationType.Success);
             }
 
-            return RedirectToAction(nameof(ManufacturerController.Details), "manufacturer", new { id = model.ManufacturerId });
+            return RedirectToManufacturerDetails(model.ManufacturerId);
         }
 
         public async Task<IActionResult> Delete(int id)
@@ -74,7 +74,7 @@
             if (model == null)
             {
                 this.ShowNotification(NotificationMessages.InvalidOperation);
-                return RedirectToAction(nameof(ManufacturerController.Index), "Manufacturer");
+                return RedirectToManufacturerIndex();
             }
 
             return View(model);
@@ -100,7 +100,7 @@
                 this.ShowNotification(NotificationMessages.InvalidOperation);
             }
 
-            return RedirectToAction(nameof(ManufacturerController.Details), "Manufacturer", new { id = model.ManufacturerId });
+            return RedirectToManufacturerDetails(model.ManufacturerId);
         }
     }
 }

@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using Common.AutoMapping.Interfaces;
-    using Services.Models;
     using Services.Models.Ad;
 
     public class AdEditViewModel : IMapWith<AdEditServiceModel>

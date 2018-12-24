@@ -12,7 +12,6 @@
 
     public class SearchController : Controller
     {
-
         private readonly IVehicleService vehicles;
         private readonly ICache cache;
 
