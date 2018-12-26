@@ -85,7 +85,7 @@
             services
                 .AddMvc(options =>
                 {
-                    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+                    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
 
                 })
                 .AddRazorPagesOptions(options =>

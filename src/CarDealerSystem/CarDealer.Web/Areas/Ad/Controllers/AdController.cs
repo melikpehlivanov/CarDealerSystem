@@ -108,7 +108,7 @@
         }
 
         [HttpPost]
-        public JsonResult UploadFile(int id)
+        public IActionResult UploadFile(int id)
         {
             try
             {

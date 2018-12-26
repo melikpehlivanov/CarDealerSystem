@@ -160,7 +160,7 @@
                         for (var x = 0; x < files.length; x++) {
                             data.append("file" + x, files[x]);
                         }
-
+                        data.append('__RequestVerificationToken', $('input[name=__RequestVerificationToken]').val());
                         $.ajax({
                             type: "POST",
                             url: '/Ad/UploadFile?id=' + myId,
