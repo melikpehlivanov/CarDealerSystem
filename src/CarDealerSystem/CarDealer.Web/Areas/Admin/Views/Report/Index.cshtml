@@ -32,9 +32,13 @@
                             <a class="btn" asp-area="Ad" asp-controller="Ad" asp-action="Edit" asp-route-id="@ad.Id">Edit</a>
                             <a class="btn" asp-area="Ad" asp-controller="Ad" asp-action="Delete" asp-route-id="@ad.Id">Delete</a>
                         }
-                        @if ((User.IsInRole(WebConstants.AdministratorRole) || User.IsInRole(WebConstants.SeniorAdministratorRole)) && User.Identity.Name != ad.UserEmail)
+                        @if ((User.IsInRole(WebConstants.AdministratorRole) || User.IsInRole(WebConstants.SeniorAdministratorRole)))
                         {
-                            <a class="btn" asp-area="Ad" asp-controller="Ad" asp-action="Delete" asp-route-id="@ad.Id">Delete</a>
+                            if (User.Identity.Name != ad.UserEmail)
+                            {
+                                <a class="btn" asp-area="Ad" asp-controller="Ad" asp-action="Delete" asp-route-id="@ad.Id">Delete</a>
+                            }
+                            
                             <form method="post" asp-action="Update" style="margin-top: 5px; display: inline-block">
                                 <button type="submit" class="btn" asp-area="Admin" asp-controller="Report" asp-action="Update" asp-route-id="@ad.Id">Mark as false report</button>
                             </form>
