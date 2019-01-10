@@ -80,3 +80,5 @@ And if you want to skip this part simply delete this block of code which is loca
     "SendGridApiKey": "YourSendgridApiKey"
   }
 }</pre>
+
+<h1>NOTE: Some css files are missing from the repository as I don't have permission to distribute them.</h1>
