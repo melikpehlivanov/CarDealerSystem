@@ -329,3 +329,14 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 /src/CarDealerSystem/CarDealer.Web/secrets.json
+/src/CarDealerSystem/CarDealer.Web/wwwroot/scss
+/src/CarDealerSystem/CarDealer.Web/wwwroot/images
+/src/CarDealerSystem/CarDealer.Web/wwwroot/font
+/src/CarDealerSystem/CarDealer.Web/wwwroot/css/style-2.css
+/src/CarDealerSystem/CarDealer.Web/wwwroot/css/style-3.css
+/src/CarDealerSystem/CarDealer.Web/wwwroot/css/style-4.css
+/src/CarDealerSystem/CarDealer.Web/wwwroot/css/style-5.css
+/src/CarDealerSystem/CarDealer.Web/wwwroot/css/gallery.css
+/src/CarDealerSystem/CarDealer.Web/wwwroot/css/module_rtl.css
+/src/CarDealerSystem/CarDealer.Web/wwwroot/css/style.css
+/src/CarDealerSystem/CarDealer.Web/wwwroot/css/style-1.css
