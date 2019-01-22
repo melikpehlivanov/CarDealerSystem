@@ -48,20 +48,6 @@
   <li><a href="https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/facebook-logins?view=aspnetcore-2.1&tabs=aspnetcore2x" target="_blank">Facebook</a></li>
   <li><a href="https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-2.1&tabs=aspnetcore2x" target="_blank">Google</a></li>
 </ul>
-And if you want to skip this part simply delete this block of code which is located in Startup.cs
-<pre>services
-                .AddAuthentication()
-                .AddFacebook(facebookOptions =>
-                {
-                    facebookOptions.AppId = this.Configuration.GetSection("ExternalAuthentications:Facebook:AppId").Value;
-                    facebookOptions.AppSecret = this.Configuration.GetSection("ExternalAuthentications:Facebook:AppSecret").Value;
-                })
-                .AddGoogle(googleOptions =>
-                {
-                    googleOptions.ClientId = this.Configuration.GetSection("ExternalAuthentications:Google:ClientId").Value;
-                    googleOptions.ClientSecret = this.Configuration.GetSection("ExternalAuthentications:Google:ClientSecret").Value;
-                });</pre>
-<p> 
   The last and only thing which you need to do is put in your sendgrid Api key in your user secrets file - here's a <a href="https://sendgrid.com/docs/ui/account-and-settings/api-keys/#creating-an-api-key">guide</a>.
   
   Example of how your file should look like if you've implemented everything correctly.
