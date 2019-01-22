@@ -114,10 +114,11 @@
                                     <li>
                                         <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                                     </li>
-                                    <li is-subMenu>
+                                    <li>
                                         <a asp-area="" asp-controller="Home" asp-action="About">About Us</a>
                                     </li>
                                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact Us</a></li>
+                                    <li><a asp-area="" asp-controller="Search" asp-action="Result">Search inventory</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -159,7 +160,7 @@
                         <div class="img--holder" data-bg="images/slider/slide-01.jpg"></div>
                         <div class="slide-content">
                             <div class="container" data-animation="fadeInUpSm" data-animation-delay="0s">
-                                <a href="" class="tt-caption-custom">
+                                <a asp-controller="Search" asp-action="Result" class="tt-caption-custom">
                                     <div class="tt-title">
                                         <div class="text-small">We Don't Sell Cars</div>
                                         <div class="text-large">We Sell<br>a DREAM</div>
