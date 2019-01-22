@@ -43,12 +43,14 @@
         }
     }</pre>
     
-<p>The next thing which you MUST do if you want to have facebook and google login functionality is to create your own user secrets. You can see more details here:
+<p>The next thing which you have to do if you want to have facebook/google login and email sending functionality is to create your own user secrets otherwise you can skip this part and run the project. You can see more details here:
 <ul>
   <li><a href="https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/facebook-logins?view=aspnetcore-2.1&tabs=aspnetcore2x" target="_blank">Facebook</a></li>
   <li><a href="https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-2.1&tabs=aspnetcore2x" target="_blank">Google</a></li>
+  <li>
+    <a href="https://sendgrid.com/docs/ui/account-and-settings/api-keys/#creating-an-api-key">SendGrid (email sender)</a>
+  </li>
 </ul>
-  The last and only thing which you need to do is put in your sendgrid Api key in your user secrets file - here's a <a href="https://sendgrid.com/docs/ui/account-and-settings/api-keys/#creating-an-api-key">guide</a>.
   
   Example of how your file should look like if you've implemented everything correctly.
   <pre>{
