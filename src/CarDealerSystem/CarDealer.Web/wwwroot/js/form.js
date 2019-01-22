@@ -5,7 +5,6 @@
     //$("input:text:visible:first").focus();
 
     $('#accesspanel').on('submit', function (e) {
-        console.log("HIIIII");
         e.preventDefault();
 
         state = !state;
