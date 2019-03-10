@@ -16,6 +16,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
+    using Middleware;
     using Models.Dtos;
     using Newtonsoft.Json;
 
@@ -36,6 +37,9 @@
 
             return app;
         }
+
+        public static IApplicationBuilder AddDefaultSecurityHeaders(this IApplicationBuilder app, SecurityHeadersBuilder builder)
+            => app.UseMiddleware<SecurityHeadersMiddleware>(builder.Policy());
 
         #region SeedDataRegion
 

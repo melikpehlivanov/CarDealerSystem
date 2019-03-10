@@ -4,6 +4,7 @@
     using CarDealer.Models;
     using Data;
     using Infrastructure.Extensions;
+    using Infrastructure.Middleware;
     using Infrastructure.Utilities;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -112,6 +113,9 @@
 
             app.UseHttpsRedirection();
             app.UseResponseCompression();
+            app.AddDefaultSecurityHeaders(
+                new SecurityHeadersBuilder()
+                    .AddDefaultSecurePolicy());
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
